@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Noice</title>
+    <link rel="stylesheet" href="output.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="w-dvw bg-black box-border">
+    <div class="flex h-dvh w-dvw justify-around p-3">
+        
+        <div class="min-w-[23vw] bg-[#121212] text-white mt-1 rounded-2xl p-[5px]">
+            <div class="w-full bg-black justify-center flex items-center rounded-2xl cursor-pointer">
+                <img class="w-16 object-cover rounded-full " src="../component/logo/Logo.png" alt="">
+                <h1 class="text-4xl">Noice</h1>
+            </div>
+            <div class=" place-self-center justify-center  music w-full p-5 mt-5 rounded-2xl bg-[#262626]">
+                <div class="headPhone flex gap-2 cursor-pointer justify-center"> 
+                    <img id="whitePlaylist" class="hidden" src="../component/logo/playliist.svg" alt="">
+                    <img id="dullPlaylist" src="../component/logo/dull playlit.svg" alt="">
+                    <p class="text-[#adadad] text-xl hover:text-white select-none">Your Songs in this playlist</p>
+                    <img class="right mt-1.5" src="../component/logo/right.svg" alt="">
+                    <img class="down mt-1.5 hidden" src="../component/logo/down.svg" alt="">
+                </div>
+                <section class="songsAppend">
+                    <ul class="idk flex flex-col">
+                    </ul>
+                </section>
+            </div>
+        </div>
+
+
+        <div class="min-w-[74vw] h-full bg-[#121212] text-white mt-1  rounded-2xl p-[5px]">
+            <div class="w-full bg-black justify-between gap-15 flex items-center rounded-2xl p-[10px]">
+                <div class="relative">
+                    <img class="absolute top-2.5 right-5" src="../component/logo/search.svg" alt="">
+                    <input class="bg-[#121212] hover:bg-[#262626] w-100 h-11 rounded-2xl duration-500 focus:outline-none pl-3 type="text">
+                </div>
+                <div class="flex justify-between gap-5 mr-5">
+                    <button class="bg-[#121212] w-25 h-10 rounded-4xl cursor-pointer hover:bg-[#262626] duration-500 ">login</button>
+                    <button class="bg-[#121212] w-25 h-10 rounded-4xl cursor-pointer hover:bg-[#262626] duration-500 ">sign-up</button>
+                    <img src="../component/logo/user.svg" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
+
