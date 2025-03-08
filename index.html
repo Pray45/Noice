@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Noice</title>
-    <link rel="stylesheet" href="output.css">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/src/output.css">
+    <link rel="stylesheet" href="/src/style.css">
 </head>
 <body class="w-dvw bg-black box-border">
     <div class="flex h-dvh w-dvw justify-around p-3">
@@ -16,10 +16,10 @@
                 <h1 class="text-4xl">Noice</h1>
             </div>
             <div class=" place-self-center justify-center  music w-full p-5 mt-5 rounded-2xl bg-[#262626]">
-                <div class="headPhone flex gap-2 cursor-pointer justify-center"> 
+                <div class="headPhone flex gap-2 cursor-pointer items-center justify-center"> 
                     <img id="whitePlaylist" class="hidden" src="../component/logo/playliist.svg" alt="">
                     <img id="dullPlaylist" src="../component/logo/dull playlit.svg" alt="">
-                    <p class="text-[#adadad] text-xl hover:text-white select-none">Your Songs in this playlist</p>
+                    <p class="text-[#adadad]  hover:text-white select-none">Your Songs in this playlist</p>
                     <img class="right mt-1.5" src="../component/logo/right.svg" alt="">
                     <img class="down mt-1.5 hidden" src="../component/logo/down.svg" alt="">
                 </div>
@@ -32,7 +32,7 @@
 
 
         <div class="min-w-[74vw] h-full bg-[#121212] text-white mt-1  rounded-2xl p-[5px]">
-            <div class="w-full bg-black justify-between gap-15 flex items-center rounded-2xl p-[10px]">
+            <div class="min-w-[74vw] bg-black justify-between gap-15 flex items-center rounded-2xl p-[10px]">
                 <div class="relative">
                     <img class="absolute top-2.5 right-5" src="../component/logo/search.svg" alt="">
                     <input class="bg-[#121212] hover:bg-[#262626] w-100 h-11 rounded-2xl duration-500 focus:outline-none pl-3 type="text">
@@ -43,9 +43,13 @@
                     <img src="../component/logo/user.svg" alt="">
                 </div>
             </div>
+            <section class="mt-5 w-full pl-2 pr-2">
+                <div class="playlists">
+                </div>
+            </section>
         </div>
     </div>
-    <script src="app.js"></script>
+    <script src="/src/app.js"></script>
 </body>
 </html>
 
