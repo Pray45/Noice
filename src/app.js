@@ -1,8 +1,8 @@
 let loading = document.getElementsByClassName('loading')
 let body = document.getElementsByClassName('elem')
-let dirURL = 'http://127.0.0.1:3000/component/songs-container/'
-let URL = "http://127.0.0.1:3000/component/songs-container/90s/"
-let songURL ='http://127.0.0.1:3000/component/songs-container/90s/'
+let dirURL = 'http://noice.netlify.app/component/songs-container/'
+let URL = "http://noice.netlify.app/component/songs-container/90s/"
+let songURL ='http://noice.netlify.app/component/songs-container/90s/'
 let playlistName = []
 let playlists = []
 let playName = document.querySelectorAll(".play")
