@@ -1,13 +1,12 @@
 let loading = document.getElementsByClassName('loading')
 let body = document.getElementsByClassName('elem')
-let dirURL = 'http://noice.netlify.app/component/songs-container/'
-let URL = "http://noice.netlify.app/component/songs-container/90s/"
-let songURL ='http://noice.netlify.app/component/songs-container/90s/'
+let dirURL = 'http://127.0.0.1:3000//component/songs-container/'
+let URL = "http://127.0.0.1:3000//component/songs-container/90s/"
 let playlistName = []
 let playlists = []
 let playName = document.querySelectorAll(".play")
 let play = document.querySelector(".playlists")
-let Name = "90s"
+let Name = ""
 let section = document.querySelector(".songsAppend").getElementsByTagName('ul')[0]
 let dull = document.querySelector("#dullPlaylist")
 let white = document.querySelector("#whitePlaylist")
@@ -16,10 +15,15 @@ let rightArrow = document.querySelector(".right")
 let downArrow = document.querySelector(".down")
 let songs = [] 
 let temp = true
+let playsong
+let pr = ""
+let audio = new Audio()
+
 // <<<<<<<<<<<<<<<<<< fetching playlist >>>>>>>>>>>>>>>>>>>>
 
 
 const findPlaylist = async () =>{
+5
     
     let dir = await fetch(dirURL)
     let responce = await dir.text()
@@ -34,7 +38,8 @@ const findPlaylist = async () =>{
                 let remove = elem.href.slice(start)
                 let remove1 = remove.replace("container/" , "")
                 let remove2 = remove1.replace("/" , "")
-                playlists.push(remove2)
+                playsong = remove2.replaceAll("%20" , " ")
+                playlists.push(playsong)
             }
         }
 
@@ -49,41 +54,39 @@ const findPlaylist = async () =>{
                         <img class="w-32 h-32" src="./component/song pic/song.jpg" alt="">
                         <div class="text-center">
                             <h2>${list}</h2>
-                            <p>drscription lorem15</p>
                         </div>
                     </div>`
                     playlistName.push(`${list}`)                    
-        }
-        console.log(playlistName)
+        }        
 
         Array.from(document.getElementsByClassName("play")).forEach(e=>{
             
             e.addEventListener("click" , async item =>{
                 delSongs()
-                pray = item.currentTarget.dataset;
-                console.log(pray);
-                const str = JSON.stringify(pray);
-                console.log(str)
-                console.log(typeof(str))
+                pray = item.currentTarget.dataset;                
+                const str = JSON.stringify(pray);                                
                 let colan = str.indexOf(":")
-                let lastSecond = str.slice(colan)
-                console.log(lastSecond)
-                let last = lastSecond.replace(/"/g, "" ).replace(":" , "").replace("}" , "")
-                console.log(last)
-                Name = last
-                songURL = URL.replace("90s" , last)
-                console.log(songURL);
+                let lastSecond = str.slice(colan)                
+                let last = lastSecond.replace(/"/g, "" ).replace(":" , "").replace("}" , "")                
+                let c = last
+                Name = last.replaceAll(" " , "%20")
+                songURL = URL.replace("90s" , last)                
                 findSongs()
             })
            })
+
+
            
     }
 
-   
+    function playSong(songName) {
+        let ans = songURL + songName
+        audio.src = ans
+        audio.play()
+    }
+    
 
     document.addEventListener("load" , findPlaylist())
-
-
 
 
 // <<<<<<<<<<<<<<<<<< fetching data >>>>>>>>>>>>>>>>>>>>
@@ -101,15 +104,35 @@ const findSongs = async () =>{
             songs.push(elem.href)
         }
     }
-    for (const ganaa of songs) {
-        let start = ganaa.indexOf(`${Name}`)
+    for (const ganaa of songs) { 
+        let start = ganaa.indexOf(`${Name}`)        
         let end = ganaa.indexOf(".mp3")
-        let extracted = ganaa.slice(start, end)
-        let decoded = decodeURIComponent(extracted)
-        let last = decoded.replace(`${Name}` , "").replace("/" , "")
-        section.innerHTML =  section.innerHTML + `<li><img src="../component/song pic/song.jpg" alt=""> <p>${last}</p></li>`
+        let extracted = ganaa.slice(start)
+        let Thlast = extracted.indexOf("/")
+        let SECla = extracted.slice(Thlast)
+        last = SECla.replaceAll("/" , "")
+        let listSong = last.replaceAll("%20" , " ").replaceAll(".mp3" , "")
+        section.innerHTML =  section.innerHTML + `
+            <li>
+                <img src="../component/song pic/song.jpg" alt="">
+                <div class="info flex flex-col">
+                    <div class="sng">${listSong}</div>
+                    <p></p>
+                </div>
+            </li>`
     }
+
+    Array.from(document.querySelector(".songsAppend").getElementsByTagName("li")).forEach(e => {
+        e.addEventListener("click" , element => {
+            let woo = e.querySelector(".info").firstElementChild.innerHTML+".mp3"
+            playSong(woo) 
+        })
+    });
+    
+
 }
+
+
 
 
 // <<<<<<<<<<<<<<<<<< headphone btn >>>>>>>>>>>>>>>>>>>>
@@ -148,6 +171,3 @@ headPhone.addEventListener("click" , () =>{
         temp = true
     }
 })
-
-
-

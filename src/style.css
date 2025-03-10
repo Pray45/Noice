@@ -20,7 +20,12 @@
     cursor: pointer;
 }
 
-.songsAppend li p:hover{
+.songsAppend .info{
+    width: 100%;
+}
+
+.songsAppend .info:hover{
+    width: 100%;
     color: white;
     border-bottom: 1px solid white;
 }
