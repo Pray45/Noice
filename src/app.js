@@ -1,7 +1,7 @@
 let loading = document.getElementsByClassName('loading')
 let body = document.getElementsByClassName('elem')
-let dirURL = 'http://127.0.0.1:3000//component/songs-container/'
-let URL = "http://127.0.0.1:3000//component/songs-container/90s/"
+let dirURL = "./component/songs-container/"
+let URL = "./component/songs-container/90s/"
 let playlistName = []
 let playlists = []
 let playName = document.querySelectorAll(".play")
@@ -23,7 +23,6 @@ let audio = new Audio()
 
 
 const findPlaylist = async () =>{
-5
     
     let dir = await fetch(dirURL)
     let responce = await dir.text()
