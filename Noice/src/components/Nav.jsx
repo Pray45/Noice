@@ -1,4 +1,5 @@
 import React from 'react'
+import { NavLink } from 'react-router-dom';
 import { GoHomeFill } from "react-icons/go";
 import { IoMusicalNotes } from "react-icons/io5";
 import { BiSolidAlbum } from "react-icons/bi";
@@ -23,22 +24,22 @@ function Nav() {
         <div className='text-white pl-6'>
             <ul>
                 <li>
-                    <li className='pt-5 text-xl pl-5'>Library</li>
+                    <p className='pt-5 text-xl pl-5'>Library</p>
                     <ul>
-                        <nav className='flex items-center gap-5 text-lg ml-12 pt-5 text-[#635972] cursor-pointer hover:text-zinc-300 duration-200'><GoHomeFill /> Home</nav>
-                        <nav className='flex items-center gap-5 text-lg ml-12 pt-5 text-[#635972] cursor-pointer hover:text-zinc-300 duration-200'><IoMusicalNotes />Songs</nav>
-                        <nav className='flex items-center gap-5 text-lg ml-12 pt-5 text-[#635972] cursor-pointer hover:text-zinc-300 duration-200'><BiSolidAlbum />Albums</nav>
-                        <nav className='flex items-center gap-5 text-lg ml-12 pt-5 text-[#635972] cursor-pointer hover:text-zinc-300 duration-200'><GiMicrophone />Artists</nav>
-                        <nav className='flex items-center gap-5 text-lg ml-12 pt-5 text-[#635972] cursor-pointer hover:text-zinc-300 duration-200'><IoMdHeart />Liked</nav>
-                        <nav className='flex items-center gap-5 text-lg ml-12 pt-5 text-[#635972] cursor-pointer hover:text-zinc-300 duration-200'><BiSolidPlaylist />My Playlists</nav>
+                        <NavLink to="/" className={({isActive}) => `flex items-center gap-5 text-lg ml-12 py-1 mt-3 ${isActive ? 'hover:text-zinc-300 border-r-4 rounded-xs' : 'text-[#635972] cursor-pointer' } hover:text-zinc-300 duration-200`}><GoHomeFill /> Home</NavLink>
+                        <NavLink to="/song" className={({isActive}) => `flex items-center gap-5 text-lg ml-12 py-1 mt-3 ${isActive ? 'hover:text-zinc-300 border-r-4 rounded-xs' : 'text-[#635972] cursor-pointer' } hover:text-zinc-300 duration-200`}><IoMusicalNotes />Songs</NavLink>
+                        <NavLink to="/album" className={({isActive}) => `flex items-center gap-5 text-lg ml-12 py-1 mt-3 ${isActive ? 'hover:text-zinc-300 border-r-4 rounded-xs' : 'text-[#635972] cursor-pointer' } hover:text-zinc-300 duration-200`}><BiSolidAlbum />Albums</NavLink>
+                        <NavLink to="/artist" className={({isActive}) => `flex items-center gap-5 text-lg ml-12 py-1 mt-3 ${isActive ? 'hover:text-zinc-300 border-r-4 rounded-xs' : 'text-[#635972] cursor-pointer' } hover:text-zinc-300 duration-200`}><GiMicrophone />Artists</NavLink>
+                        <NavLink to="/liked" className={({isActive}) => `flex items-center gap-5 text-lg ml-12 py-1 mt-3 ${isActive ? 'hover:text-zinc-300 border-r-4 rounded-xs' : 'text-[#635972] cursor-pointer' } hover:text-zinc-300 duration-200`}><IoMdHeart />Liked</NavLink>
+                        <NavLink to="/playlist" className={({isActive}) => `flex items-center gap-5 text-lg ml-12 py-1 mt-3 ${isActive ? 'hover:text-zinc-300 border-r-4 rounded-xs' : 'text-[#635972] cursor-pointer' } hover:text-zinc-300 duration-200`}><BiSolidPlaylist />My Playlists</NavLink>
                     </ul>
                 </li>
                 <li>
-                <li className='pt-8 text-xl pl-5'>Discover</li>
+                <p className='pt-8 text-xl pl-5'>Discover</p>
                     <ul>
-                        <nav className='flex items-center gap-5 text-lg pl-12 pt-5 text-[#635972] cursor-pointer hover:text-zinc-300 duration-200'><IoAddCircleSharp />Add Song</nav>
-                        <nav className='flex items-center gap-5 text-lg pl-12 pt-5 text-[#635972] cursor-pointer hover:text-zinc-300 duration-200'><MdContacts />About us</nav>
-                        <nav className='flex items-center gap-5 text-lg pl-12 pt-5 text-[#635972] cursor-pointer hover:text-zinc-300 duration-200'><RiTeamFill />Contact us</nav>
+                        <NavLink to="/add" className={({isActive}) => `flex items-center gap-5 text-lg pl-12 py-1 mt-3 ${isActive ? 'hover:text-zinc-300 border-r-4 rounded-xs' : 'text-[#635972] cursor-pointer' } hover:text-zinc-300 duration-200`}><IoAddCircleSharp />Add Song</NavLink>
+                        <NavLink to="/about" className={({isActive}) => `flex items-center gap-5 text-lg pl-12 py-1 mt-3 ${isActive ? 'hover:text-zinc-300 border-r-4 rounded-xs' : 'text-[#635972] cursor-pointer' } hover:text-zinc-300 duration-200`}><MdContacts />About us</NavLink>
+                        <NavLink to="/contact" className={({isActive}) => `flex items-center gap-5 text-lg pl-12 py-1 mt-3 ${isActive ? 'hover:text-zinc-300 border-r-4 rounded-xs' : 'text-[#635972] cursor-pointer' } hover:text-zinc-300 duration-200`}><RiTeamFill />Contact us</NavLink>
                     </ul>
                 </li>
             </ul>

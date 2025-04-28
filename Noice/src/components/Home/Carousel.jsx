@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import axios from "axios"
 
 const slides = [
     "./slider/boys.jpg",
@@ -22,7 +23,7 @@ function Carousel() {
     <div className='flex overflow-hidden'>
         {
             slides.map((elem) => (
-                <img className='w-full duration-1500' style={{transform: `translateX(-${current * 100}%)`}} src={elem} />
+                <img key={elem} className='w-full duration-1500' style={{transform: `translateX(-${current * 100}%)`}} src={elem} />
             ))
 
         }

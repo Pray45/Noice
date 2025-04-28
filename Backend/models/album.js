@@ -1,13 +1,14 @@
 import mongoose from "mongoose"
 
-const PlaylistSchema = new mongoose.Schema({
+const AlbumSchema = new mongoose.Schema({
 
     name:{type: String , required: true},
+    desc:{type: String , required: true},
     color:{type: String , required: true},
     img:{type: String , required: true},
 
 } , {timestamps:true})
 
-const Playlist = mongoose.model("Playlist" , PlaylistSchema)
+const Album = mongoose.model("Album" , AlbumSchema)
 
-export default Playlist
+export default Album
