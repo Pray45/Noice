@@ -7,12 +7,12 @@ function TopAlbum() {
 
   useEffect(() => {
     (async() => { 
-      const res = await axios.get("https://noice-2ed8.onrender.com/api/playlist/list")
+      const res = await axios.get("https://noice-2ed8.onrender.com/api/album/list")
       setAlbum(res.data.album) 
     })()
   },[])
 
-  return (
+  return(
     <div className='text-white pl-5 pt-10'>
         <div className='flex justify-between mb-10 mr-10 mt-30 items-end'>
             <h1 className='text-3xl'>Albums</h1>

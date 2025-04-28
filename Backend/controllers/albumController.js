@@ -1,4 +1,5 @@
 import {v2 as cloudinary} from "cloudinary"
+import fs from "fs"
 import Album from "../models/album.js"
 
 const addAlbum = async(req,res) => {
@@ -12,11 +13,10 @@ const addAlbum = async(req,res) => {
             color,
             img : imgUpload.secure_url
         }
-
         console.log(Albumdata);
         const album = Album(Albumdata)
         await album.save()
-
+        fs.unlinkSync(img.path);
         res.json({ success:"true" , Album: "Album added"})
 
     } catch (error) {

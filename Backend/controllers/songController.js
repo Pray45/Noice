@@ -1,4 +1,5 @@
 import {v2 as cloudinary} from "cloudinary"
+import fs from "fs"
 import Songmodel from "../models/song.model.js"
 
 
@@ -27,6 +28,8 @@ const addSong = async (req, res) => {
 
         const song = Songmodel(uploaded)
         await song.save()
+        fs.unlinkSync(audio.path);
+        fs.unlinkSync(img.path);
         
     } catch (error) {
         console.log(error);
