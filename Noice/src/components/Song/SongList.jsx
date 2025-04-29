@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { FaHeart } from "react-icons/fa";
+import React, { useEffect, useState } from 'react'
+import axios from 'axios'
+import { FaHeart } from "react-icons/fa"
 
 function SongList() {
-  const [songs, setSongs] = useState([]);
-
+  
+  const [songs, setSongs] = useState([])
 
   useEffect(() => {
     (async () => {
       try {
-        const res = await axios.get('https://noice-2ed8.onrender.com/api/song/list');
-        setSongs(res.data.songlist);
+        const res = await axios.get('https://noice-2ed8.onrender.com/api/song/list')
+        setSongs(res.data.songlist)
       } catch (err) {
-        console.error("Error fetching songs", err);
+        console.error("Error fetching songs", err)
       }
     })() 
   }, []);
@@ -21,17 +21,17 @@ function SongList() {
     try {
         await axios.put(`https://noice-2ed8.onrender.com/api/song/update/${id}`, {
         liked: !currentLiked,
-      });
+      })
   
       setSongs(prevSongs =>
         prevSongs.map(song =>
           song._id === id ? { ...song, liked: !currentLiked } : song
         )
-      );
+      )
     } catch (error) {
-      console.error("Error toggling like", error);
+      console.error("Error toggling like", error)
     }
-  };
+  }
 
   return (
     <div className="bg-[#070011] w-9/11 min-h-screen absolute right-0 text-white px-10 py-8">
@@ -52,7 +52,7 @@ function SongList() {
        ))
       }
     </div>
-  );
+  )
 }
 
-export default SongList;
+export default SongList
