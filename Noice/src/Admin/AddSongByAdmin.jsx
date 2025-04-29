@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import { IoMusicalNoteSharp, IoCamera } from "react-icons/io5";
 import { TiTick } from "react-icons/ti";
 
-function AddSong() {
+function AddSongByAdmin() {
   const [song, setSong] = useState(false);
   const [img, setImg] = useState(false);
   const [name, setName] = useState("");
@@ -17,7 +17,7 @@ function AddSong() {
     e.preventDefault();
     setLoading(true);
 
-    if (!name || !artist || album === "none" || !song || !img) {
+    if (!name || !artist || !song || !img) {
       toast.error("Please fill all fields!");
       setLoading(false);
       return;
@@ -73,7 +73,7 @@ function AddSong() {
           <input onChange={(e) => setArtist(e.target.value)} value={artist} type="text" id="artist" className='bg-[#12002c9f] mt-2 px-3 py-2 rounded-md outline-none focus:ring-2 focus:ring-purple-500 transition-all duration-200' />
         </div>
 
-        {/* <div className='flex flex-col'>
+        <div className='flex flex-col'>
           <label htmlFor="album" className='text-lg font-semibold'>Select Album</label>
           
           <select onChange={(e) => setAlbum(e.target.value)} value={album} className='bg-[#12002c9f] mt-2 px-3 py-2 rounded-md outline-none focus:ring-2 focus:ring-purple-500 transition-all duration-200'>
@@ -84,7 +84,7 @@ function AddSong() {
                 ))
             }
           </select>
-        </div> */}
+        </div>
 
         <div className='flex gap-8'>
             <div className='flex flex-col items-start'>
@@ -110,4 +110,4 @@ function AddSong() {
   );
 }
 
-export default AddSong;
+export default AddSongByAdmin;

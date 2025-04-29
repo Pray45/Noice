@@ -11,6 +11,7 @@ import Artist from './components/Artist/Artist.jsx';
 import Liked from './components/Liked/Liked.jsx';
 import Playlist from './components/Playlists/Playlist.jsx';
 import AddSong from './components/AddSong.jsx';
+import AddSongByAdmin from './Admin/AddSongByAdmin.jsx';
 
 function App() {
   const router = createBrowserRouter([
@@ -25,6 +26,7 @@ function App() {
         { path: "/liked", element: <Liked/> },
         { path: "/playlist", element: <Playlist/> },
         { path: "/add", element: <AddSong/> },
+        { path: "/add/byadmin", element: <AddSongByAdmin/> },
       ]
     }
   ]);

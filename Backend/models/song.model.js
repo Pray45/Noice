@@ -15,7 +15,16 @@ const SongSchema = new mongoose.Schema({
     album:
     { 
         type: String,
-        required : true
+    },
+    playlist:
+    { 
+        type: String,
+    },
+    liked:
+    { 
+        type: Boolean,
+        default: false,
+        required: true
     },
     img:
     { 
@@ -31,7 +40,7 @@ const SongSchema = new mongoose.Schema({
     { 
         type: String,
         required : true
-    },
+    }
 
 } , {timestamps : true})
 

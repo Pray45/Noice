@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { NavLink } from 'react-router-dom';
 import { GoHomeFill } from "react-icons/go";
 import { IoMusicalNotes } from "react-icons/io5";
@@ -10,15 +10,37 @@ import { IoAddCircleSharp } from "react-icons/io5";
 import { MdContacts } from "react-icons/md";
 import { RiTeamFill } from "react-icons/ri";
 
-
 function Nav() {
+
+    const [Msg , setMsg] = useState("")
+
+    useEffect(()=>{
+
+        let time = new Date().getHours()
+        let msg = ""
+    
+        if(time>=5 && time<12){
+            msg = 'Good morning'
+        }
+        if(time>=12 && time<18){
+            msg = 'Good Afternoon'
+        }
+        if(time>=18 && time<23){
+            msg = 'Good Evening'
+        }
+        if(time>=23 || time == 24 || time>=0 && time<5){
+            msg = 'go to bed !!!'
+        }
+        setMsg(msg)
+    },[])
+
   return (
     <div className='fixed w-2/11 min-h-screen bg-[#0A0019]'>
         <div className='flex gap-5 w-full pl-10 pt-5 pb-5 cursor-pointer border-b-2 border-[#1a0040]'>
             <img className='w-16 rounded-full' src="avtar.png" alt="" />
             <div>
-                <h1 className='text-white text-xl self-center'>Pray</h1>
-                <h1 className='text-zinc-500 text-md self-center'>good morning</h1>
+                <h1 className='text-white pt-1 text-xl self-center'>Pray</h1>
+                <h1 className='text-zinc-500 text-md self-center'>{Msg}</h1>
             </div>
         </div>
         <div className='text-white pl-6'>

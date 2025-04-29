@@ -9,7 +9,7 @@ const addSong = async (req, res) => {
     res.send("Hello im add song")
     try {    
 
-        const { name , artist , album} = req.body
+        const { name , artist , album, playlist, liked} = req.body
         const audio = req.files.audio[0]
         const img = req.files.img[0]
         const audioUpload = await cloudinary.uploader.upload(audio.path , {resource_type: "video"})
@@ -19,7 +19,9 @@ const addSong = async (req, res) => {
         const uploaded = {
             name,
             artist, 
-            album, 
+            album,
+            playlist,
+            liked,
             img: audioUpload.secure_url,
             audio: imgUpload.secure_url,
             duration
