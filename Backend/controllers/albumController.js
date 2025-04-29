@@ -16,10 +16,10 @@ const addAlbum = async(req,res) => {
         const album = Album(Albumdata)
         await album.save()
         fs.unlinkSync(img.path);
-        res.json({ success:"true" , Album: "Album added"})
+        res.json({ success:"success" , Album: "Album added"})
 
     } catch (error) {
-        res.json({success:"false" , error})
+        res.json({error})
     }
 }
 
@@ -29,7 +29,7 @@ const listAlbum = async(req,res) => {
         const album = await Album.find({})
         res.json({album})
     } catch (error) {
-        res.json({Success: "didnt listed"})
+        res.json({error})
     }
 
 }
@@ -39,7 +39,7 @@ const removeAlbum = async(req,res) => {
         await Album.findByIdAndDelete(req.body.id)
         res.json({responce: "Album Successfully removed" })
     } catch (error) {
-        res.json({responce: "failed to remove Album" })
+        res.json({error})
     }
 }
 

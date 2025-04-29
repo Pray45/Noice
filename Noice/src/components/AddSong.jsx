@@ -1,7 +1,9 @@
-import React, { use, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import axios from "axios"
+import { toast } from 'react-toastify';
 import { IoMusicalNoteSharp } from "react-icons/io5";
 import { IoCamera } from "react-icons/io5";
+import { TiTick } from "react-icons/ti";
 
 function AddSong() {
 
@@ -13,36 +15,57 @@ function AddSong() {
     const [albumdata , setAlbumdata] = useState([])
     const [loading , setLoading] = useState(false)
 
-    const onSubmit = async(e) => {
-
-        e.preventDefault()
-        setLoading(true)
+    const onSubmit = async (e) => {
+        e.preventDefault();
+        setLoading(true);
+      
+        if (!name || !artist || album === "none" || !song || !img) {
+          toast.error("Please fill all fields!");
+          setLoading(false);
+          return;
+        }
+      
         const formData = new FormData();
-
-        formData.append('name',name)
-        formData.append('artist',artist)
-        formData.append('album',album)
-        formData.append('audio',song)
-        formData.append('img',img)
-
-        const responce = await axios.post("https://noice-2ed8.onrender.com/api/song/add" , FormData)
-
-        if(responce.data.success){
-            setLoading(false)
-            toast.success("Song Added")
-            setName("")
-            setArtist("")
-            setAlbum(none)
-            setSong(false)
-            setImg(false)
+        formData.append('name', name);
+        formData.append('artist', artist);
+        formData.append('album', album);
+        formData.append('audio', song);
+        formData.append('img', img);
+      
+        try {
+          const response = await axios.post("https://noice-2ed8.onrender.com/api/song/add",formData);
+      
+        if (response.data.success) {
+            toast.success("Song added successfully!");
+            setName("");
+            setArtist("");
+            setAlbum("none");
+            setSong(false);
+            setImg(false);
+          } else {
+            setName("");
+            setArtist("");
+            setAlbum("none");
+            setSong(false);
+            setImg(false);
+            toast.error("Upload failed. Try again.");
+          }
+        } catch (err) {
+          toast.error("Server error.");
+        } finally {
+          setLoading(false);
         }
+      };
+      
 
-        else
-        {
-            toast.error("Something went Wrong")
+    useEffect(() => {
+        (async() => {
+            const res = await axios.get("https://noice-2ed8.onrender.com/api/album/list")
+            setAlbumdata(res.data.album)
         }
-
-    }
+        )()
+    }, [])
+    
 
   return loading ?(
     <div className='bg-[#070011] flex justify-center items-center w-9/11 min-h-screen absolute right-0 text-white pl-10'>
@@ -60,16 +83,28 @@ function AddSong() {
                 <input onChange={(e) => setArtist(e.target.value)} type="text" id="artist" className='bg-[#12002c9f] mt-5 outline-none rounded-md py-1'/>
             </div>
             <div className='flex flex-col'>
-                <label htmlFor="album">Artist Of Song</label>
-                <select onChange={(e) =>  setAlbum(e.target.value)} className='bg-[#12002c9f] mt-5 outline-none rounded-md py-1'/>
-                
+                <label htmlFor="album">Album Of Song</label>
+                <select onChange={(e) =>  setAlbum(e.target.value)} className='bg-[#12002c9f] mt-5 outline-none rounded-md py-1'>
+                {albumdata.map((item, index) => (
+                    <option key={index} value={item.name}>{item.name}</option>
+                ))}
+                </select>
             </div>
             <div className='flex flex-col'>
-                <label htmlFor="song" className='w-35 h-35 bg-[#12002c9f] mt-5 flex items-center justify-center'><IoMusicalNoteSharp className='text-6xl'/></label>
+                <label htmlFor="song" className='w-35 h-35 bg-[#12002c9f] mt-5 flex items-center justify-center'>
+                    {
+                        song ? <TiTick className='text-6xl' /> : <IoMusicalNoteSharp className='text-6xl'/>
+                    }
+                </label>
                 <input onChange={(e) => setSong(e.target.files[0])} type="file" id="song" className='hidden'/>
             </div>
             <div className='flex flex-col'>
-                <label htmlFor="img" className='w-35 h-35 bg-[#12002c9f] mt-5 flex items-center justify-center'><IoCamera className='text-6xl'/></label>
+                <label htmlFor="img" className='w-35 h-35 bg-[#12002c9f] mt-5 flex items-center justify-center'>
+                    {
+                        img ? <img src={URL.createObjectURL(img)} className="w-33 h-33 object-cover object-center" />  : <IoCamera className='text-6xl'/>
+                    }
+                </label>
+                
                 <input onChange={(e) => setImg(e.target.files[0])} type="file" id="img" className='hidden'/>
             </div>
 
