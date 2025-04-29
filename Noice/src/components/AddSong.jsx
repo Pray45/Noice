@@ -17,7 +17,7 @@ function AddSong() {
     e.preventDefault();
     setLoading(true);
 
-    if (!name || !artist || album === "none" || !song || !img) {
+    if (!name || !artist || !song || !img) {
       toast.error("Please fill all fields!");
       setLoading(false);
       return;
