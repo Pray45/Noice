@@ -1,4 +1,5 @@
 import React from 'react'
+import {motion} from "framer-motion"
 import { FaPlay } from "react-icons/fa";
 
 function TopArtist() {
@@ -11,16 +12,16 @@ function TopArtist() {
 
         <div className='flex justify-center items-center gap-10'>
         
-        <div className='h-100 w-75 bg-[#31244463] duration-300 cursor-pointer rounded-2xl p-3'>
+        <motion.div transition={{duration: 0.5}} whileInView={{scale: 1.1}} className='h-100 scale-90 w-75 bg-[#31244463] cursor-pointer rounded-2xl p-3'>
             <img className='w-75 h-70 object-center object-cover' src="./artist/nty.gif" />
                 <h1 className='text-2xl pt-3'>Drake</h1>
             <div className='flex items-center justify-between pt-2'>
                 <span className='text-2xl'>#2 </span>
                 <FaPlay className='text-[#8e63f1] text-3xl'/>
             </div>
-        </div>
+        </motion.div>
 
-        <div className='flex flex-col justify-center h-120 w-110 bg-[#31244463] duration-300 cursor-pointer rounded-2xl p-3'>
+        <motion.div transition={{duration: 0.5}} whileInView={{scale: 1.1}} className='flex  scale-90 flex-col justify-center h-120 w-110 bg-[#31244463] cursor-pointer rounded-2xl p-3'>
             <img className='w-110 h-90 object-cover object-center' src="./artist/Taylor.webp" />
                 <h1 className='text-2xl pt-3'>Taylor Swift</h1>
                 <div className='flex items-center justify-between pt-2'>
@@ -28,15 +29,15 @@ function TopArtist() {
                 <FaPlay className='text-[#8e63f1] text-3xl'/>
         </div>
 
-        </div>
-            <div className='h-100 w-75 bg-[#31244463] duration-300 cursor-pointer rounded-2xl p-3'>
+        </motion.div>
+            <motion.div transition={{duration: 0.5}} whileInView={{scale: 1.1}} className='h-100 scale-90 w-75 bg-[#31244463] cursor-pointer rounded-2xl p-3'>
                 <img className='w-75 h-70 object-cover object-center' src="./artist/bunny.webp" />
                     <h1 className='text-2xl pt-3'>Bad Bunny</h1>
                 <div className='flex items-center justify-between pt-2'>
                     <span className='text-2xl'>#3</span>
                     <FaPlay className='text-[#8e63f1] text-3xl'/>
                 </div>
-            </div>
+            </motion.div>
         </div>
     </div>
   )

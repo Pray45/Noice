@@ -30,8 +30,11 @@ const addSong = async (req, res) => {
         await song.save()
         fs.unlinkSync(audio.path);
         fs.unlinkSync(img.path);
+
+        res.json({success: "success"})
         
     } catch (error) {
+        res.json({error: "error"})
         console.log(error);
     }
 
@@ -43,7 +46,9 @@ const listSong = async (req, res) => {
     try {
         const songlist = await Songmodel.find({})
         res.json({songlist})
+        res.json({success: "success"})
     } catch (error) {
+        res.json({error: "error"})
         console.log(error);
     }
 }
