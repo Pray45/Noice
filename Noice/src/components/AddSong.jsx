@@ -34,8 +34,8 @@ function AddSong() {
       
         try {
           const response = await axios.post("https://noice-2ed8.onrender.com/api/song/add",formData);
-      
-        if (response.data.success) {
+          console.log(response.data.status);
+        if (response.data.status == 200) {
             toast.success("Song added successfully!");
             setName("");
             setArtist("");

@@ -31,10 +31,10 @@ const addSong = async (req, res) => {
         fs.unlinkSync(audio.path);
         fs.unlinkSync(img.path);
 
-        res.json({success: "success"})
+        res.status(200).json({ success: true, message: "Song uploaded successfully" });
         
     } catch (error) {
-        res.json({error: "error"})
+        res.status(400).json({ success: false, message: "Failed to upload song" });
         console.log(error);
     }
 
@@ -46,7 +46,7 @@ const listSong = async (req, res) => {
     try {
         const songlist = await Songmodel.find({})
         res.json({songlist})
-        res.json({success: "success"})
+        res.status(200).json({ success: true, message: "Song listed successfully" });
     } catch (error) {
         res.json({error: "error"})
         console.log(error);
@@ -58,9 +58,9 @@ const listSong = async (req, res) => {
 const removeSong = async(req,res) => {
     try {
         await Songmodel.findByIdAndDelete(req.body.id)
-        res.json({responce: "song Successfully removed" })
+        res.status(200).json({ success: true, message: "Song deleted successfully" });
     } catch (error) {
-        res.json({responce: "failed to remove song" })
+        res.status(400).json({ success: false, message: "Failed to remove song" });
     }
 }
 
