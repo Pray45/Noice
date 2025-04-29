@@ -22,8 +22,8 @@ const addSong = async (req, res) => {
             album,
             playlist,
             liked,
-            img: audioUpload.secure_url,
-            audio: imgUpload.secure_url,
+            img:  imgUpload.secure_url,
+            audio: audioUpload.secure_url,
             duration
         }
         console.log(uploaded);
