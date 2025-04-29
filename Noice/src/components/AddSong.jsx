@@ -73,19 +73,6 @@ function AddSong() {
           <input onChange={(e) => setArtist(e.target.value)} value={artist} type="text" id="artist" className='bg-[#12002c9f] mt-2 px-3 py-2 rounded-md outline-none focus:ring-2 focus:ring-purple-500 transition-all duration-200' />
         </div>
 
-        {/* <div className='flex flex-col'>
-          <label htmlFor="album" className='text-lg font-semibold'>Select Album</label>
-          
-          <select onChange={(e) => setAlbum(e.target.value)} value={album} className='bg-[#12002c9f] mt-2 px-3 py-2 rounded-md outline-none focus:ring-2 focus:ring-purple-500 transition-all duration-200'>
-            <option value="none" disabled>Select an album</option>
-            {   
-                albumdata.map((item, index) => (
-                    <option key={index} value={item.name}>{item.name}</option>
-                ))
-            }
-          </select>
-        </div> */}
-
         <div className='flex gap-8'>
             <div className='flex flex-col items-start'>
               <label htmlFor="song" className='w-50 flex justify-center items-center bg-[#12002c9f] mt-2 h-50 rounded-md cursor-pointer hover:bg-[#1f0040] transition-all'>

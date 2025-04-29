@@ -1,54 +1,58 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { FaHeart } from "react-icons/fa";
 
 function SongList() {
   const [songs, setSongs] = useState([]);
 
+
   useEffect(() => {
-    const fetchSongs = async () => {
+    (async () => {
       try {
         const res = await axios.get('https://noice-2ed8.onrender.com/api/song/list');
         setSongs(res.data.songlist);
       } catch (err) {
         console.error("Error fetching songs", err);
       }
-    };
-    fetchSongs();
+    })() 
   }, []);
 
-  return (
-    <div className="bg-[#070011] flex flex-col justify-center items-center w-9/11 min-h-screen absolute right-0 text-white">
-      <h2 className="text-3xl font-bold mb-6">🎵 All Songs</h2>
-      <div className="flex flex-wrap gap-10 mt-20 mb-30 ml-12">
-        { 
-          songs.map((song, index) => (
-            
-            <div key={index} className="bg-[#1c0030] rounded-lg overflow-hidden w-50">
-              <img src={song.audio} className="w-45 h-45 object-cover object-center justify-self-center"/>
-              <div className="p-4">
-                <h3 className="text-xl font-semibold">{song.name}</h3>
-                <p className="text-sm text-gray-300">Artist: {song.artist}</p>
-                
-                {
-                  song.album && (
-                    <p className="text-sm text-gray-400">Album: {song.album}</p>
-                  )
-                }
-                <p className="text-sm text-gray-400 mt-1"></p>
-              </div>
-            </div>
+  const OnLike = async (id, currentLiked) => {
+    try {
+        await axios.put(`https://noice-2ed8.onrender.com/api/song/update/${id}`, {
+        liked: !currentLiked,
+      });
+  
+      setSongs(prevSongs =>
+        prevSongs.map(song =>
+          song._id === id ? { ...song, liked: !currentLiked } : song
+        )
+      );
+    } catch (error) {
+      console.error("Error toggling like", error);
+    }
+  };
 
-        ))}
-      </div>
+  return (
+    <div className="bg-[#070011] w-9/11 min-h-screen absolute right-0 text-white px-10 py-8">
+      {
+        songs.map((song, index) => (
+          <div key={index} className="pl-5 flex gap-10 items-center text-sm py-3 hover:bg-[#1a012c] rounded-md duration-300 mt-1" >
+            <h1 className="w-8 h-10 flex items-center text-gray-400">{index + 1}</h1>
+            <img src={song.img} alt={song.name} className="w-12 h-12 rounded object-cover" />
+            <h1 className="w-80 font-semibold text-white truncate">{song.name}</h1>
+            <h1 className="w-90 text-gray-300 truncate">{song.artist}</h1>
+            <h1 className="w-10 text-gray-300">{song.duration}</h1>
+            <input type="checkbox" id={`liked-${song._id}`} checked={song.liked} onChange={() => OnLike(song._id, song.liked)} className="hidden" />
+            <label htmlFor={`liked-${song._id}`} className='text-md'>
+              <FaHeart className={`text-xl transition-all duration-300 ${song.liked ? 'text-red-500' : 'text-gray-500'}`} />
+            </label>
+            <button className='py-2.5 bg-[#12002c9f] hover:bg-[#2a0b569f] px-6 rounded-lg duration-300'>Add</button>
+          </div>
+       ))
+      }
     </div>
   );
-}
-
-function formatDuration(seconds) {
-  if (!seconds || isNaN(seconds)) return 'N/A';
-  const min = Math.floor(seconds / 60);
-  const sec = Math.floor(seconds % 60);
-  return `${min}:${sec.toString().padStart(2, '0')}`;
 }
 
 export default SongList;
