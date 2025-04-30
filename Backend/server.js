@@ -6,7 +6,6 @@ import connectDB from './db/connectDB.js';
 import connectCloudinary from './db/Connectcoudinary.js';
 import Songrouter from './routes/songRoutes.js';
 import albumRouter from './routes/album.js';
-import PlaylistRouter from './routes/playlist.js';
 
 const app = express();
 dotenv.config();
@@ -20,7 +19,6 @@ connectCloudinary();
 
 app.use('/api/song' , Songrouter)
 app.use('/api/album' , albumRouter)
-app.use('/api/playlist' , PlaylistRouter)
 
 app.get('/', (req, res) => {
   res.send('Hello World!');
