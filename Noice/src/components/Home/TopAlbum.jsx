@@ -12,7 +12,7 @@ function TopAlbum() {
       setAlbum(res.data.album)
     })()
   },[])
-
+    
   return( 
       <div className='text-white pl-5 pt-10'>
         <div className='flex justify-between mb-10 mr-10 mt-30 items-end'>

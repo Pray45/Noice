@@ -15,7 +15,8 @@ function Album() {
         <div  className='flex flex-wrap ml-5 gap-8'>
           {
             album.map((e,index) => (
-                <motion.div key={index} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: index * 0.1 }}  className=' scale-90 w-50 h-65 cursor-pointer hover:bg-[#171120] rounded-2xl'>
+                <motion.div key={index} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.2}}  
+                className=' scale-90 w-50 h-65 cursor-pointer hover:bg-[#171120] rounded-2xl'>
                     <img className='w-45 h-45 rounded-2xl justify-self-center mt-3 object-cover object-top' src={e.img} alt="" />
                     <h1 className='pl-5 pt-1'>{e.name}</h1>
                     <p className='text-xs mr-10 pl-5 pt-2 text-zinc-500 truncate'>{e.desc}</p>
