@@ -1,6 +1,6 @@
 import {v2 as cloudinary} from "cloudinary"
 import fs from "fs"
-import Playlistdata from "../models/playlist.js"
+import Playlistdata from "../models/playlist.js"    
 
 const addPlaylist = async(req , res) => {
     try {
