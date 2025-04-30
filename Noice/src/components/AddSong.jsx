@@ -9,8 +9,6 @@ function AddSong() {
   const [img, setImg] = useState(false);
   const [name, setName] = useState("");
   const [artist, setArtist] = useState("");
-  const [album, setAlbum] = useState("none");
-  const [albumdata, setAlbumdata] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const onSubmit = async (e) => {
@@ -26,7 +24,6 @@ function AddSong() {
     const formData = new FormData();
     formData.append('name', name);
     formData.append('artist', artist);
-    formData.append('album', album);
     formData.append('audio', song);
     formData.append('img', img);
 
@@ -37,7 +34,6 @@ function AddSong() {
         toast.success("Song added successfully!");
         setName("");
         setArtist("");
-        setAlbum("none");
         setSong(false);
         setImg(false);
         setLoading(false)
@@ -48,18 +44,11 @@ function AddSong() {
     }
   }
 
-  useEffect(() => {
-    (async () => {
-      const res = await axios.get("https://noice-2ed8.onrender.com/api/album/list");
-      setAlbumdata(res.data.album);
-    })();
-  }, []);
-
   return loading ? (
     <div className='bg-[#070011] flex justify-center items-center w-9/11 min-h-screen absolute right-0 text-white'>
       <h1 className='text-5xl animate-pulse'>Loading...</h1>
     </div>
-  ) : (
+    ) : (
     <div className='w-9/11 bg-[#070011] min-h-screen absolute right-0 text-white px-10 py-8'>
       <form onSubmit={onSubmit} className='space-y-6 max-w-fit flex flex-col justify-self-end pr-20 pt-10'>
         
