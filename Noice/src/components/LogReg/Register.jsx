@@ -11,7 +11,7 @@ const Register = () => {
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('http://localhost:4000/api/user/create', input, {withCredentials: true})
+      const res = await axios.post('https://noice-2ed8.onrender.com/api/user/create', input, {withCredentials: true})
 
     if (res.data.success) {
         toast.success('Registered successfully!');

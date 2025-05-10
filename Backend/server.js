@@ -12,7 +12,7 @@ const app = express();
 dotenv.config();
 
 app.use(cors({
-  origin: 'http://localhost:5173',
+  origin: 'https://noice-2ed8.onrender.com',
   credentials: true
 }));
 app.use(express.json());
