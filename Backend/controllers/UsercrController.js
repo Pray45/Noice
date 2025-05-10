@@ -19,7 +19,7 @@
             const token = jwt.sign({email} , "devilmaycry")
             res.cookie("token", token)
             res.send(create)
-            res.status(200).json(create);
+            res.status(200).json({success: "true"});
 
         } catch (error) {
             console.log(error)
