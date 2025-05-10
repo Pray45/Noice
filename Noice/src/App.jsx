@@ -1,41 +1,50 @@
-import React from 'react'
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import React from 'react';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import './index.css'
-import Home from './components/Home/Home.jsx'
+
+import './index.css';
 import Layout from './Layout.jsx';
+import Home from './components/Home/Home.jsx';
 import Album from './components/Album/Album.jsx';
 import Artist from './components/Artist/Artist.jsx';
 import Liked from './components/Liked/Liked.jsx';
 import Playlist from './components/Playlists/Playlist.jsx';
 import AddSong from './components/AddSong.jsx';
 import AddSongByAdmin from './Admin/AddSongByAdmin.jsx';
-import SongList from './components/Song/SongList.jsx'
-
+import SongList from './components/Song/SongList.jsx';
+import Login from './components/LogReg/Login.jsx';
+import Register from './components/LogReg/Register.jsx';
 
 function App() {
-  const router = createBrowserRouter([
-    {
-      path: "/",
-      element: <Layout />,
-      children: [
-        { path: "/", element: <Home /> },         
-        { path: "/song", element: <SongList/>},   
-        { path: "/album", element: <Album/> },
-        { path: "/artist", element: <Artist/> },
-        { path: "/liked", element: <Liked/> },
-        { path: "/playlist", element: <Playlist/> },
-        { path: "/add", element: <AddSong/> },
-        { path: "/add/byadmin", element: <AddSongByAdmin/> },
-      ]
-    }
-  ]);
+  const isLoggedIn = localStorage.getItem('loggedIn') === 'true';
+
   return (
     <>
-      <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} newestOnTop={false} closeOnClick pauseOnHover draggable/>
-      <RouterProvider router={router} />
-    </> 
-  )
+      <ToastContainer />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+
+          {isLoggedIn ? (
+            <Route path="/" element={<Layout />}>
+              <Route index element={<Home />} />
+              <Route path="/song" element={<SongList />} />
+              <Route path="/album" element={<Album />} />
+              <Route path="/artist" element={<Artist />} />
+              <Route path="/liked" element={<Liked />} />
+              <Route path="/playlist" element={<Playlist />} />
+              <Route path="/add" element={<AddSong />} />
+              <Route path="/add/byadmin" element={<AddSongByAdmin />} />
+            </Route>
+          ) : (
+            <Route path="*" element={<Navigate to="/login" />} />
+          )}
+        </Routes>
+      </BrowserRouter>
+    </>
+  );
 }
-export default App
+
+export default App;
