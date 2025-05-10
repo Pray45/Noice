@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom';
 import {motion} from "framer-motion"
 import axios from "axios";
 
@@ -17,7 +18,7 @@ function TopAlbum() {
       <div className='text-white pl-5 pt-10'>
         <div className='flex justify-between mb-10 mr-10 mt-30 items-end'>
             <h1 className='text-3xl'>Albums</h1>
-            <h1 className='text-md cursor-pointer text-[#635972] hover:text-white duration-500'>Show All</h1>
+            <Link to='/album' className='text-md cursor-pointer text-[#635972] hover:text-white duration-500'>Show All</Link>
         </div>
 
         <div  className='flex gap-5'>

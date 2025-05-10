@@ -5,19 +5,19 @@ const SongContext = createContext()
 
 export const DataProvider = ({ children }) => {
 
-    const [songs, setSongs] = useState([]);
+    const [songs, setSongs] = useState([])
     const [album , setAlbum] = useState([])
-    const [loading, setLoading] = useState(true);
-    const [currentSong, setCurrentSong] = useState(null);
-    const [isPlaying, setIsPlaying] = useState(false);
-    const [audioRef] = useState(new Audio());
+    const [loading, setLoading] = useState(true)
+    const [currentSong, setCurrentSong] = useState(null)
+    const [isPlaying, setIsPlaying] = useState(false)
+    const [audioRef] = useState(new Audio())
 
     useEffect(() => {
         (async () => {
             try {
                 const res = await axios.get('https://noice-2ed8.onrender.com/api/song/list')
                 setSongs(res.data.songlist)
-                setLoading(false);
+                setLoading(false)
             } catch (err) {
                 console.error("Error fetching songs", err)
           }

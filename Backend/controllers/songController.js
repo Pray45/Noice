@@ -26,18 +26,18 @@ const addSong = async (req, res) => {
             audio: audioUpload.secure_url,
             duration
         }
-        console.log(uploaded);
+        console.log(uploaded)
 
         const song = Songmodel(uploaded)
         await song.save()
-        fs.unlinkSync(audio.path);
-        fs.unlinkSync(img.path);
+        fs.unlinkSync(audio.path)
+        fs.unlinkSync(img.path)
 
-        res.status(200).json({ success: true, message: "Song uploaded successfully" });
+        res.status(200).json({ success: true, message: "Song uploaded successfully" })
         
     } catch (error) {
-        res.status(400).json({ success: false, message: "Failed to upload song" });
-        console.log(error);
+        res.status(400).json({ success: false, message: "Failed to upload song" })
+        console.log(error)
     }
 
 }
@@ -48,10 +48,10 @@ const listSong = async (req, res) => {
     try {
         const songlist = await Songmodel.find({})
         res.json({songlist})
-        res.status(200).json({ success: true, message: "Song listed successfully" });
+        res.status(200).json({ success: true, message: "Song listed successfully" })
     } catch (error) {
         res.json({error: "error"})
-        console.log(error);
+        console.log(error)
     }
 }
 
@@ -60,9 +60,9 @@ const listSong = async (req, res) => {
 const removeSong = async(req,res) => {
     try {
         await Songmodel.findByIdAndDelete(req.body.id)
-        res.status(200).json({ success: true, message: "Song deleted successfully" });
+        res.status(200).json({ success: true, message: "Song deleted successfully" })
     } catch (error) {
-        res.status(400).json({ success: false, message: "Failed to remove song" });
+        res.status(400).json({ success: false, message: "Failed to remove song" })
     }
 }
 
@@ -70,17 +70,17 @@ const removeSong = async(req,res) => {
 
 const likeSong = async (req, res) => {
     try {
-      const songId = req.params.id;
-      const { liked } = req.body;
+      const songId = req.params.id
+      const { liked } = req.body
   
-      const updatedSong = await Songmodel.findByIdAndUpdate(songId, { liked }, { new: true });  
+      const updatedSong = await Songmodel.findByIdAndUpdate(songId, { liked }, { new: true })
       
-      res.status(200).json(updatedSong);
+      res.status(200).json(updatedSong)
     } catch (error) {
-      console.error(error);
-      res.status(400).json({ success: false, message: "Failed to toggle like" });
+      console.error(error)
+      res.status(400).json({ success: false, message: "Failed to toggle like" })
     }
-  };
+  }
 
 
-export { addSong, listSong , removeSong, likeSong};
+export { addSong, listSong , removeSong, likeSong}

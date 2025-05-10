@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react'
-import axios from 'axios'
+import React from 'react'
 import {motion} from 'framer-motion'
 import { FaHeart } from "react-icons/fa"
 import { useSong } from '../../contaxt'
@@ -15,6 +14,11 @@ function Liked() {
       <h1 className='text-5xl animate-pulse'>Loading...</h1>
     </div>
   ) : (
+    liked.length == 0 ? 
+    <div className='bg-[#070011] flex justify-center items-center w-9/11 min-h-screen absolute right-0 text-white'>
+      <h1 className='text-5xl animate-bounce'>no liked songs yet...</h1>
+    </div> 
+    :
     <div className="bg-[#070011] w-9/11 min-h-screen absolute right-0 text-white px-10 py-8">
       {
         

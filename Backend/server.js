@@ -6,22 +6,24 @@ import connectDB from './db/connectDB.js';
 import connectCloudinary from './db/Connectcoudinary.js';
 import Songrouter from './routes/songRoutes.js';
 import albumRouter from './routes/album.js';
+import userRouter from './routes/userRouter.js';
 
 const app = express();
 dotenv.config();
 
 app.use(cors());
 app.use(express.json());
-app .use(cookieParser());
+app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 connectDB();
 connectCloudinary();
 
 app.use('/api/song' , Songrouter)
 app.use('/api/album' , albumRouter)
+app.use('/api/user' , userRouter)
 
 app.get('/', (req, res) => {
-  res.send('Hello World!');
+  res.send('Hello welcome to my API !!!');
 });
 
 app.listen(process.env.PORT, () => {

@@ -1,13 +1,14 @@
 import React from 'react'
 import {motion} from "framer-motion"
 import { FaPlay } from "react-icons/fa";
+import { Link } from 'react-router-dom';
 
 function TopArtist() {
   return (
     <div>
         <div className='flex justify-between mr-10 mt-20 items-end'>
             <h1 className='text-3xl mb-10'>Top Artits</h1>
-            <h1 className='text-md mb-10 cursor-pointer text-[#635972] hover:text-white duration-500'>Show All</h1>
+            <Link to='/artist' className='text-md mb-10 cursor-pointer text-[#635972] hover:text-white duration-500'>Show All</Link>
         </div>
 
         <div className='flex justify-center items-center gap-10'>
