@@ -17,7 +17,7 @@ import Login from './components/LogReg/Login.jsx';
 import Register from './components/LogReg/Register.jsx';
 
 function App() {
-  const isLoggedIn = localStorage.getItem('loggedIn') === 'true';
+  const isLoggedIn = localStorage.getItem('loggedIn') == 'true';
 
   return (
     <>

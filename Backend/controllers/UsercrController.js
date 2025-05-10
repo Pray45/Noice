@@ -18,8 +18,9 @@
 
             const token = jwt.sign({email} , "devilmaycry")
             res.cookie("token", token)
-            res.send(create)
-            res.status(200).json({success: "true"});
+
+            res.status(200).json({ success: true, user: create });
+
 
         } catch (error) {
             console.log(error)
@@ -33,14 +34,13 @@
             const { email, password } = req.body
 
             const user = await User.findOne({email})
-            if(!user) res.send("please register first")
+            if (!user) return res.status(400).json({ success: false, message: "Please register first" });
             
             const isPassCorrect = await bcrypt.compare(password , user.password)
             
             if(isPassCorrect){
                     const token = jwt.sign({email: user.email} , "devilmaycry")
                     res.cookie("token", token)
-                    res.send({email , password})
                     return res.status(200).json({ success: true, message: "Login successful", token });
             }
             else{
