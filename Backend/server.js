@@ -11,13 +11,7 @@ import userRouter from './routes/userRouter.js';
 const app = express();
 dotenv.config();
 
-const corsOptions = {
-  origin: 'https://noice-cv.vercel.app',
-  origin: 'http://localhost:5173',
-  credentials: true, 
-};
-
-app.use(cors(corsOptions));
+app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
