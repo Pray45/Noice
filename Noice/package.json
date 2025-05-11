@@ -3,14 +3,12 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "proxy": "https://noice-2ed8.onrender.com",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview"
-  },
-  {
-  "proxy": "https://noice-2ed8.onrender.com"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.4",
