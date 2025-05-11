@@ -11,11 +11,13 @@ const Login = () => {
   const handleLogin = async(e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('https://noice-2ed8.onrender.com/api/user/login', input, {withCredentials: true});
+      const res = await axios.post('http://localhost:4000/api/user/login', input, {withCredentials: true});
 
       if (res.data.success) {
         const userId = res.data.userId;
+        const userName = res.data.userName;
         localStorage.setItem('userId', userId);
+        localStorage.setItem('userName', userName);
         window.localStorage.setItem('loggedIn', "true");
         navigate('/');
       } else {

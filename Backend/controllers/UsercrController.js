@@ -41,7 +41,7 @@ const loginUser = async(req,res) => {
         if(isPassCorrect){
                 const token = jwt.sign({email: user.email} , "devilmaycry")
                 res.cookie("token", token)
-                return res.status(200).json({ success: true, message: "Login successful", token, userId: user._id });
+                return res.status(200).json({ success: true, message: "Login successful", token, userName: user.username, userId: user._id });
         }
         else{
                 console.log(error)
@@ -73,28 +73,16 @@ const likeSong = async (req, res) => {
             await User.findByIdAndUpdate(userId, {
                 $pull: { likedSongs: songId }
             });
-            return res.status(200).json({ success: true, message: "Song unliked" });
         } else {
             user.likedSongs.push(songId);
-            await user.save();
-            return res.status(200).json({ success: true, message: "Song liked" });
         }
+        await user.save();
+        return res.status(200).json({ success: true, message: "Song liked", arr: user.likedSongs });
+        
     } catch (error) {
         console.log(error);
         res.status(500).json({ success: false, message: "Internal server error" });
     }
 };
 
-const listLike = async(req , res) => {
-    const { userId } = req.body;
-    try {
-        const user = await User.findById(userId)
-        return res.status(200).json({likedSongs: user.likedSongs})
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({ success: false, message: "Internal server error" });
-    }
-}
-
-
-export { createUser, loginUser, logoutUser, likeSong, listLike}
+export { createUser, loginUser, logoutUser, likeSong}
