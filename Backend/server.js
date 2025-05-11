@@ -12,7 +12,7 @@ const app = express();
 dotenv.config();
 
 const corsOptions = {
-  origin: 'https://noice-cv.vercel.app',
+  origin: [ 'https://noice-2ed8.onrender.com', 'http://localhost:5173' ],
   credentials: true, 
 };
 
