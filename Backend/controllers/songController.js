@@ -66,21 +66,4 @@ const removeSong = async(req,res) => {
     }
 }
 
-// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<  like song  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
-const likeSong = async (req, res) => {
-    try {
-      const songId = req.params.id
-      const { liked } = req.body
-  
-      const updatedSong = await Songmodel.findByIdAndUpdate(songId, { liked }, { new: true })
-      
-      res.status(200).json(updatedSong)
-    } catch (error) {
-      console.error(error)
-      res.status(400).json({ success: false, message: "Failed to toggle like" })
-    }
-  }
-
-
-export { addSong, listSong , removeSong, likeSong}
+export { addSong, listSong , removeSong}

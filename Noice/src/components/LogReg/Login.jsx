@@ -14,6 +14,8 @@ const Login = () => {
       const res = await axios.post('https://noice-2ed8.onrender.com/api/user/login', input, {withCredentials: true});
 
       if (res.data.success) {
+        const userId = res.data.userId;
+        localStorage.setItem('userId', userId);
         window.localStorage.setItem('loggedIn', "true");
         navigate('/');
       } else {

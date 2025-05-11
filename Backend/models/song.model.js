@@ -16,16 +16,6 @@ const SongSchema = new mongoose.Schema({
     { 
         type: String,
     },
-    playlist:
-    { 
-        type: String,
-    },
-    liked:
-    { 
-        type: Boolean,
-        default: false,
-        required: true
-    },
     img:
     { 
         type: String,

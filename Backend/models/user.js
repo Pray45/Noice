@@ -20,7 +20,15 @@ const userSchema = new mongoose.Schema(
     { 
         type: String,
         required: true 
-    }},
+    },
+
+    likedSongs: 
+    [{ 
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Song' 
+    }],
+    
+},
     { timestamps:true }
 )
 
