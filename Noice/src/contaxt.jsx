@@ -15,7 +15,7 @@ export const DataProvider = ({ children }) => {
     useEffect(() => {
         (async () => {
             try {
-                const res = await axios.get('https://noice-2ed8.onrender.com/api/song/list')
+                const res = await axios.get('https://noice-2ed8.onrender.com/api/song/list', {withCredentials: true})
                 setSongs(res.data.songlist)
                 setLoading(false)
             } catch (err) {
@@ -43,7 +43,7 @@ export const DataProvider = ({ children }) => {
 
     useEffect(() => {
       (async() => { 
-        const res = await axios.get("https://noice-2ed8.onrender.com/api/album/list")
+        const res = await axios.get("https://noice-2ed8.onrender.com/api/album/list", {withCredentials: true})
         setAlbum(res.data.album)
       })()
     },[])
