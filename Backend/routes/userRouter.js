@@ -6,6 +6,6 @@ const userRouter = express.Router()
 
 userRouter.post("/create", createUser)
 userRouter.post("/login", loginUser)
-userRouter.post("/like", likeSong)
+userRouter.post("/like/:id", likeSong)
 
 export default userRouter
