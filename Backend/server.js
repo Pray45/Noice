@@ -28,7 +28,7 @@ connectCloudinary();
 app.use('/api/song' , Songrouter)
 app.use('/api/album' , albumRouter)
 app.use('/api/user' , userRouter)
-app.use('/api/playlist' , playlistRouter)
+
 
 app.get('/', (req, res) => {
   res.send('Hello welcome to my API !!!');
