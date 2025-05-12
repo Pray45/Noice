@@ -9,11 +9,11 @@ function SongList() {
   const isLiked = (songId) => likedSongs && likedSongs.includes(songId);
 
   return loading ? (
-    <div className="bg-[#070011] flex justify-center items-center w-9/11 min-h-screen absolute right-0 text-white">
+    <div className="bg-gradient-to-r from-[#070011] to-[#1a012c] flex justify-center items-center w-9/11 min-h-screen absolute right-0 text-white">
       <h1 className="text-5xl animate-pulse">Loading...</h1>
     </div>
   ) : (
-    <div className="bg-[#070011] w-9/11 min-h-screen absolute right-0 text-white px-10 py-8">
+    <div className="bg-gradient-to-r from-[#070011] to-[#1a012c] w-9/11 min-h-screen absolute right-0 text-white px-10 py-8">
       {songs.map((song, index) => (
         <motion.div
           key={index}
