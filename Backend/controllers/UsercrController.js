@@ -34,7 +34,7 @@ const loginUser = async(req,res) => {
 
         const { email, password } = req.body
         const user = await User.findOne({email})
-        if (!user) return res.status(400).json({ success: false, message: "Please register first" });
+        if (!user) return res.status(400).json({ success: false, err: "Wrong email" });
         
         const isPassCorrect = await bcrypt.compare(password , user.password)
         
@@ -45,19 +45,15 @@ const loginUser = async(req,res) => {
         }
         else{
                 console.log(error)
-                console.log("something went wrong");
+                return res.status(400).json({ success: false, err: "Wrong password"});
         }
 
     } catch (error) {
 
         console.log(error)
-        res.status(400).json({success: false , message: "error in login"})
+        res.status(400).json({success: false , err: "Wrong password"})
 
     }
-}
-
-const logoutUser = (req,res) => {
-    res.cookie(token , "")
 }
 
 const likeSong = async (req, res) => {
@@ -85,4 +81,4 @@ const likeSong = async (req, res) => {
     }
 };
 
-export { createUser, loginUser, logoutUser, likeSong}
+export { createUser, loginUser, likeSong}

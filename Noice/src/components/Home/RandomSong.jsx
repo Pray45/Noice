@@ -6,7 +6,7 @@ import { FaHeart } from "react-icons/fa"
 
 function RandomSong() {
   
-   const {songs, album, loading, OnLike, isPlaying, pauseSong, playSong, currentSong} = useSong()
+   const {songs} = useSong()
 
   return (
     <div className="bg-[#070011] mr-15 text-white py-8">

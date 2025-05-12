@@ -5,7 +5,7 @@ import { useSong } from '../../contaxt'
 
 function SongList() {
   
-  const {songs, album, loading, OnLike, isPlaying, pauseSong, playSong, currentSong} = useSong()
+  const {songs, loading} = useSong()
 
   return loading ? (
     <div className='bg-[#070011] flex justify-center items-center w-9/11 min-h-screen absolute right-0 text-white'>
@@ -17,24 +17,16 @@ function SongList() {
         songs.map((song, index) => (
             <motion.div 
               key={index} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: index * .1 }} 
-              className={` pl-5 flex gap-10 items-center text-sm py-3 hover:bg-[#1a012c] rounded-md mt-1 ${currentSong? currentSong._id === song._id ? 'bg-[#1a012c]': '' : ''}`}
-              onClick={() => {
-                if (currentSong?._id === song._id && isPlaying) {
-                  pauseSong()
-                } else {
-                  playSong(song)
-                }
-              }}
-              >
+              className={` pl-5 flex gap-10 items-center text-sm py-3 hover:bg-[#1a012c] rounded-md mt-1`}>
 
               <h1 className="w-8 h-10 flex items-center text-gray-400">{index + 1}</h1>
               <img src={song.img} alt={song.name} className="w-12 h-12 rounded object-cover" />
               <h1 className="w-80 font-semibold text-white truncate">{song.name}</h1>
               <h1 className="w-90 text-gray-300 truncate">{song.artist}</h1>
               <h1 className="w-10 text-gray-300">{song.duration}</h1>
-              <input type="checkbox" id={`liked-${song._id}`} checked={song.liked} onChange={() => OnLike(song._id, song.liked)} className="hidden" />
-              <label htmlFor={`liked-${song._id}`} className='text-md'>
-                <FaHeart className={`text-xl transition-all duration-500 ${song.liked ? 'text-red-500' : 'text-gray-500'}`} />
+              <input type="checkbox" id={song._id} className="hidden" />
+              <label htmlFor={song._id} className='text-md'>
+                <FaHeart className={`text-xl transition-all duration-500`} />
               </label>
               <button className='py-2.5 bg-[#12002c9f] hover:bg-[#2a0b569f] px-6 rounded-lg duration-300'>Add</button>
             </motion.div>

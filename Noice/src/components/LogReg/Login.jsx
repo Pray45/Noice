@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState , useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom';
@@ -11,7 +11,7 @@ const Login = () => {
   const handleLogin = async(e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('http://localhost:4000/api/user/login', input, {withCredentials: true});
+      const res = await axios.post('https://noice-2ed8.onrender.com/api/user/login', input, {withCredentials: true});
 
       if (res.data.success) {
         const userId = res.data.userId;
@@ -21,10 +21,11 @@ const Login = () => {
         window.localStorage.setItem('loggedIn', "true");
         navigate('/');
       } else {
-        toast.error('Login failed');
+        toast.error(res.data.err);
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
+      toast.error(error.response.data.err);
     }
   };
 

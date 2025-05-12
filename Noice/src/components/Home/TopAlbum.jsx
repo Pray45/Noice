@@ -1,19 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom';
 import {motion} from "framer-motion"
-import axios from "axios";
+import { useSong } from '../../contaxt';
 
 function TopAlbum() {
 
-  const [album , setAlbum] = useState([])
+  const {album} = useSong()
 
-  useEffect(() => {
-    (async() => { 
-      const res = await axios.get("https://noice-2ed8.onrender.com/api/album/list")
-      setAlbum(res.data.album)
-    })()
-  },[])
-    
   return( 
       <div className='text-white pl-5 pt-10'>
         <div className='flex justify-between mb-10 mr-10 mt-30 items-end'>

@@ -16,9 +16,6 @@ const slides = [
   },
 ]
 
-
-console.log(slides.path)
-
 function Carousel() {
 
   const [current , setcurrent] = useState(0)
@@ -35,9 +32,9 @@ function Carousel() {
   return (
     <div className='flex overflow-hidden'>
         {
-            slides.map((elem, index) => (
+            slides.map((elem) => (
               <>
-                <img key={index} className='w-full duration-1500' style={{transform: `translateX(-${current * 100}%)`}} src={elem.img} />
+                <img key={elem.path} className='w-full duration-1500' style={{transform: `translateX(-${current * 100}%)`}} src={elem.img}  />
               </>
             ))
 

@@ -9,10 +9,16 @@ import { BiSolidPlaylist } from "react-icons/bi";
 import { IoAddCircleSharp } from "react-icons/io5";
 import { MdContacts } from "react-icons/md";
 import { RiTeamFill } from "react-icons/ri";
+import { CiLogout } from "react-icons/ci";
 
 function Nav() {
 
     const [Msg , setMsg] = useState("")
+
+    const logOut = () => {
+        window.localStorage.setItem('loggedIn', "false") 
+        window.location.reload()
+    }
 
     useEffect(()=>{
 
@@ -22,7 +28,7 @@ function Nav() {
         if(time>=5 && time<12) msg = 'Good morning'
         if(time>=12 && time<17) msg = 'Good Afternoon'
         if(time>=17 && time<21) msg = 'Good Evening'
-        if(time>=21 || time <= 24) msg = "don't wanna sleep..?"
+        if(time>=21 || time == 24) msg = "don't wanna sleep..?"
         if(time>=0 && time<5) msg = 'go to bed !!!'
         setMsg(msg)
     },[])
@@ -57,6 +63,7 @@ function Nav() {
                         <NavLink to="/add" className={({isActive}) => `flex items-center gap-5 text-lg pl-12 py-1 mt-3 ${isActive ? 'hover:text-zinc-300 border-r-4 rounded-xs' : 'text-[#635972] cursor-pointer' } hover:text-zinc-300 duration-200`}><IoAddCircleSharp />Add Song</NavLink>
                         <NavLink to="/about" className={({isActive}) => `flex items-center gap-5 text-lg pl-12 py-1 mt-3 ${isActive ? 'hover:text-zinc-300 border-r-4 rounded-xs' : 'text-[#635972] cursor-pointer' } hover:text-zinc-300 duration-200`}><MdContacts />About us</NavLink>
                         <NavLink to="/contact" className={({isActive}) => `flex items-center gap-5 text-lg pl-12 py-1 mt-3 ${isActive ? 'hover:text-zinc-300 border-r-4 rounded-xs' : 'text-[#635972] cursor-pointer' } hover:text-zinc-300 duration-200`}><RiTeamFill />Contact us</NavLink>
+                        <button onClick={logOut} className="flex items-center gap-5 text-lg pl-12 py-1 mt-3 text-[#635972] cursor-pointer hover:text-zinc-300 duration-200"><CiLogout />Logout</button>
                     </ul>
                 </li>
             </ul>

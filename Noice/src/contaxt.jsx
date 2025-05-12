@@ -12,9 +12,9 @@ export const DataProvider = ({ children }) => {
     useEffect(() => {
         (async () => {
             try {
-                const songres = await axios.get('http://localhost:4000/api/song/list', {withCredentials: true})
+                const songres = await axios.get('https://noice-2ed8.onrender.com/api/song/list', {withCredentials: true})
                 setSongs(songres.data.songlist)
-                const albumres = await axios.get("http://localhost:4000/api/album/list", {withCredentials: true})
+                const albumres = await axios.get("https://noice-2ed8.onrender.com/api/album/list", {withCredentials: true})
                 setAlbum(albumres.data.album)
                 setLoading(false)
             } catch (err) {
@@ -24,7 +24,7 @@ export const DataProvider = ({ children }) => {
       }, []);
     
     return(
-        <SongContext.Provider value={{songs, loading, album, OnLike }}>
+        <SongContext.Provider value={{songs, loading, album }}>
             {children}
         </SongContext.Provider>
     )
