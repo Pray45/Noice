@@ -11,12 +11,18 @@ import userRouter from './routes/userRouter.js';
 const app = express();
 dotenv.config();
 
-const corsOptions = {
-  origin: [ 'https://noice-2ed8.onrender.com', 'http://localhost:5173'],
-  credentials: true, 
-};
+const allowedOrigins = ['https://noice-cv.vercel.app'];
 
-app.use(cors(corsOptions));
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  }
+}));
+
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
