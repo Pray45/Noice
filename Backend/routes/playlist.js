@@ -1,5 +1,4 @@
 import express from 'express';
-
 import {getAllPlaylists, getPlaylistById, createPlaylist, updatePlaylist, deletePlaylist} from '../controllers/playlistController.js';
 import { authMiddleware } from '../middlewares/auth.middleware.js';
 
