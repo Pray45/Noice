@@ -6,16 +6,18 @@ const SongContext = createContext();
 export const DataProvider = ({ children }) => {
   const [songs, setSongs] = useState([]);
   const [album, setAlbum] = useState([]);
+  const [likedSongs, setLikedSongs] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [likedSongs, setLikedSongs] = useState([]); // New state for liked songs
+
+  const userId = localStorage.getItem("userId"); 
 
   useEffect(() => {
     (async () => {
       try {
-        const songres = await axios.get('https://noice-2ed8.onrender.com/api/song/list', { withCredentials: true });
-        setSongs(songres.data.songlist);
-        const albumres = await axios.get("https://noice-2ed8.onrender.com/api/album/list", { withCredentials: true });
-        setAlbum(albumres.data.album);
+        const songRes = await axios.get("https://noice-2ed8.onrender.com/api/song/list", { withCredentials: true });
+        setSongs(songRes.data.songlist);
+        const albumRes = await axios.get("https://noice-2ed8.onrender.com/api/album/list", { withCredentials: true });
+        setAlbum(albumRes.data.album);
         setLoading(false);
       } catch (err) {
         console.error("Error fetching songs", err);
@@ -23,24 +25,36 @@ export const DataProvider = ({ children }) => {
     })();
   }, []);
 
-  const likeSong = async (songId) => {
-    try {
-        const res = await axios.post(
-            `https://noice-2ed8.onrender.com/api/user/like/${songId}`,
-            {},
-            { withCredentials: true }
-        );
-        if (res.data.success) {
-            setLikedSongs(res.data.likedSongs);
+  useEffect(() => {
+    if (userId) {
+      (async () => {
+        try {
+          const response = await axios.get(`https://noice-2ed8.onrender.com/api/user/liked-songs/${userId}`, { withCredentials: true });
+          setLikedSongs(response.data.likedSongs)
+        } catch (err) {
+          console.error("Error fetching liked songs", err);
         }
-    } catch (err) {
-        console.error("Error liking song", err);
+      })();
     }
-};
+  }, [userId]);
 
+  const likeSong = async (songId) => {
+    if (!userId) return;
+
+    try {
+      const response = await axios.post(
+        "https://noice-2ed8.onrender.com/api/user/like",
+        { userId, songId },
+        { withCredentials: true }
+      );
+      setLikedSongs(response.data.likedSongs);
+    } catch (error) {
+      console.error("Error liking song", error);
+    }
+  };
 
   return (
-    <SongContext.Provider value={{ songs, loading, album, likedSongs, likeSong }}>
+    <SongContext.Provider value={{ songs, album, likedSongs, likeSong, loading }}>
       {children}
     </SongContext.Provider>
   );
