@@ -7,6 +7,7 @@ import connectCloudinary from './db/Connectcoudinary.js';
 import Songrouter from './routes/songRoutes.js';
 import albumRouter from './routes/album.js';
 import userRouter from './routes/userRouter.js';
+import playlistRouter from './routes/playlist.js';
 
 const app = express();
 dotenv.config();
@@ -27,6 +28,7 @@ connectCloudinary();
 app.use('/api/song' , Songrouter)
 app.use('/api/album' , albumRouter)
 app.use('/api/user' , userRouter)
+app.use('/api/playlist' , playlistRouter)
 
 app.get('/', (req, res) => {
   res.send('Hello welcome to my API !!!');
