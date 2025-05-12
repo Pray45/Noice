@@ -29,8 +29,7 @@ const listAlbum = async(req,res) => {
 
     try {
         const album = await Album.find({})
-        res.json({album})
-        res.status(200).json({ success: true, message: "album uploaded successfully" });
+        res.status(200).json({ success: true, album, message: "album uploaded successfully" });
     } catch (error) {
         res.status(400).json({ success: false, message: "Failed to list album" });
 

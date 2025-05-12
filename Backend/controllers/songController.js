@@ -47,11 +47,9 @@ const addSong = async (req, res) => {
 const listSong = async (req, res) => {
     try {
         const songlist = await Songmodel.find({})
-        res.json({songlist})
-        res.status(200).json({ success: true, message: "Song listed successfully" })
+        res.status(200).json({ success: true, songlist, message: "Song listed successfully" })
     } catch (error) {
         res.json({error: "error"})
-        console.log(error)
     }
 }
 
