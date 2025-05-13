@@ -9,8 +9,6 @@ function Home() {
   return (
     <motion.div 
       className='w-9/11 absolute right-0' 
-      initial={{ opacity: 0 }} 
-      animate={{ opacity: 1 }} 
       transition={{ duration: 0.5 }}
     >
       <Carousel />

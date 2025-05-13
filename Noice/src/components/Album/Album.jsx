@@ -11,7 +11,7 @@ function Album() {
       <h1 className='text-5xl animate-pulse'>Loading...</h1>
     </div>
     ) : (
-      <div className='w-9/11 bg-[#070011] min-h-screen absolute right-0 text-white px-10 py-8'>
+      <div className='w-9/11 bg-gradient-to-r from-[#070011] to-[#1a012c] min-h-screen absolute right-0 text-white px-10 py-8'>
         <div  className='flex flex-wrap ml-5 gap-8'>
           {
             album.map((e, index) => (

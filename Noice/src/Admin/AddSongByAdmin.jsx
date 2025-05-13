@@ -9,6 +9,8 @@ function AddSongByAdmin() {
   const [img, setImg] = useState(false);
   const [name, setName] = useState("");
   const [artist, setArtist] = useState("");
+  const [artistdata, setArtistdata] = useState([]);
+  const [artistalbum , setartistalbum] = useState("none")
   const [album, setAlbum] = useState("none");
   const [albumdata, setAlbumdata] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -26,6 +28,7 @@ function AddSongByAdmin() {
     const formData = new FormData();
     formData.append('name', name);
     formData.append('artist', artist);
+    formData.append('artistalbum', artistalbum);
     formData.append('album', album);
     formData.append('audio', song);
     formData.append('img', img);
@@ -38,9 +41,11 @@ function AddSongByAdmin() {
         setName("");
         setArtist("");
         setAlbum("none");
+        setartistalbum("none");
         setSong(false);
         setImg(false);
         setLoading(false)
+        console.log(formData);
 
     } catch (err) {
         toast.error("Upload failed. Try again.");
@@ -52,9 +57,10 @@ function AddSongByAdmin() {
     (async () => {
       const res = await axios.get("https://noice-2ed8.onrender.com/api/album/list");
       setAlbumdata(res.data.album);
+      const artistres = await axios.get("https://noice-2ed8.onrender.com/api/artist/list");
+      setArtistdata(artistres.data.artist);
     })();
   }, []);
-
   return loading ? (
     <div className='bg-[#070011] flex justify-center items-center w-9/11 min-h-screen absolute right-0 text-white'>
       <h1 className='text-5xl animate-pulse'>Loading...</h1>
@@ -80,6 +86,19 @@ function AddSongByAdmin() {
             <option value="none" disabled>Select an album</option>
             {   
                 albumdata.map((item, index) => (
+                    <option key={index} value={item.name}>{item.name}</option>
+                ))
+            }
+          </select>
+        </div>
+
+        <div className='flex flex-col'>
+          <label htmlFor="artistalbum" className='text-lg font-semibold'>Select Artist</label>
+          
+          <select onChange={(e) => setartistalbum(e.target.value)} value={artistalbum} className='bg-[#12002c9f] mt-2 px-3 py-2 rounded-md outline-none focus:ring-2 focus:ring-purple-500 transition-all duration-200'>
+            <option value="none" disabled>Select an artist</option>
+            {   
+                artistdata.map((item, index) => (
                     <option key={index} value={item.name}>{item.name}</option>
                 ))
             }

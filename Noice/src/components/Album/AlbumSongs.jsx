@@ -12,7 +12,7 @@ const AlbumSongs = () => {
   const currentAlbum = album.find(a => a.name === albumName);
 
   return (
-    <div className="text-white w-9/11 bg-[#070011] min-h-screen absolute right-0">
+    <div className="text-white w-9/11 bg-gradient-to-r from-[#070011] to-[#1a012c] min-h-screen absolute right-0">
 {currentAlbum && (
   <motion.div className="relative flex items-center gap-8 px-10 py-12 bg-gradient-to-r from-[#1d1030] via-[#3f1e54] to-[#070011] rounded-xl shadow-lg overflow-hidden" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1 }} >
 

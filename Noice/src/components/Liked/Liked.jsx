@@ -10,11 +10,11 @@ function Liked() {
   const likedSongsList = songs.filter(song => likedSongs && likedSongs.includes(song._id));
 
   return loading ? (
-    <div className='bg-[#070011] flex justify-center items-center w-9/11 min-h-screen absolute right-0 text-white'>
+    <div className='bg-gradient-to-r from-[#070011] to-[#1a012c] flex justify-center items-center w-9/11 min-h-screen absolute right-0 text-white'>
       <h1 className='text-5xl animate-pulse'>Loading...</h1>
     </div>
   ) : (
-    <div className={`bg-[#070011] w-9/11 min-h-screen absolute right-0 text-white px-10 py-8`}>
+    <div className={`bg-gradient-to-r from-[#070011] to-[#1a012c] w-9/11 min-h-screen absolute right-0 text-white px-10 py-8`}>
       {likedSongsList.length === 0 ? (
         <p className="text-xl text-center mt-10">You have no liked songs yet.</p>
       ) : (

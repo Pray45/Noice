@@ -5,9 +5,9 @@ import cookieParser from 'cookie-parser';
 import connectDB from './db/connectDB.js';
 import connectCloudinary from './db/Connectcoudinary.js';
 import Songrouter from './routes/songRoutes.js';
-import albumRouter from './routes/album.js';
+import albumRouter from './routes/albumRoutes.js';
 import userRouter from './routes/userRouter.js';
-import playlistRouter from './routes/playlist.js';
+import ArtistRouter from './routes/artistRoutes.js';
 
 const app = express();
 dotenv.config();
@@ -27,6 +27,7 @@ connectCloudinary();
 
 app.use('/api/song' , Songrouter)
 app.use('/api/album' , albumRouter)
+app.use('/api/artist' , ArtistRouter)
 app.use('/api/user' , userRouter)
 
 
@@ -36,4 +37,4 @@ app.get('/', (req, res) => {
 
 app.listen(process.env.PORT, () => {
   console.log(`Server is running on port ${process.env.PORT}`);
-});
+})
