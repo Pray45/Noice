@@ -62,7 +62,6 @@ function Nav() {
                     <ul>
                         <NavLink to="/add" className={({isActive}) => `flex items-center gap-5 text-lg pl-12 py-1 mt-3 ${isActive ? 'hover:text-zinc-300 border-r-4 rounded-xs' : 'text-[#635972] cursor-pointer' } hover:text-zinc-300 duration-200`}><IoAddCircleSharp />Add Song</NavLink>
                         <NavLink to="/about" className={({isActive}) => `flex items-center gap-5 text-lg pl-12 py-1 mt-3 ${isActive ? 'hover:text-zinc-300 border-r-4 rounded-xs' : 'text-[#635972] cursor-pointer' } hover:text-zinc-300 duration-200`}><MdContacts />About us</NavLink>
-                        <NavLink to="/contact" className={({isActive}) => `flex items-center gap-5 text-lg pl-12 py-1 mt-3 ${isActive ? 'hover:text-zinc-300 border-r-4 rounded-xs' : 'text-[#635972] cursor-pointer' } hover:text-zinc-300 duration-200`}><RiTeamFill />Contact us</NavLink>
                         <button onClick={logOut} className="flex items-center gap-5 text-lg pl-12 py-1 mt-3 text-[#635972] cursor-pointer hover:text-zinc-300 duration-200"><CiLogout />Logout</button>
                     </ul>
                 </li>
