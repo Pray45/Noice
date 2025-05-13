@@ -21,11 +21,11 @@ const Login = () => {
         window.localStorage.setItem('loggedIn', "true");
         navigate('/');
       } else {
-        toast.error(res.data.err);
+        toast.error(res.data.message);
       }
     } catch (error) {
       console.log(error);
-      toast.error(error.response.data.err);
+      toast.error(error.response.data.message);
     }
   };
 

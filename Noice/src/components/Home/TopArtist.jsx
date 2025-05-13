@@ -13,24 +13,29 @@ function TopArtist() {
 
         <div className='flex justify-center items-center gap-10'>
         
-        <motion.div transition={{duration: 0.5}} whileInView={{scale: 1.1}} className='h-100 scale-90 w-75 bg-[#31244463] cursor-pointer rounded-2xl p-3'>
-            <img className='w-75 h-70 object-center object-cover' src="./artist/nty.gif" />
-                <h1 className='text-2xl pt-3'>Drake</h1>
-            <div className='flex items-center justify-between pt-2'>
-                <span className='text-2xl'>#2 </span>
-                <FaPlay className='text-[#8e63f1] text-3xl'/>
-            </div>
-        </motion.div>
-
-        <motion.div transition={{duration: 0.5}} whileInView={{scale: 1.1}} className='flex  scale-90 flex-col justify-center h-120 w-110 bg-[#31244463] cursor-pointer rounded-2xl p-3'>
-            <img className='w-110 h-90 object-cover object-center' src="./artist/Taylor.webp" />
-                <h1 className='text-2xl pt-3'>Taylor Swift</h1>
+        <Link to={`/artist/${encodeURIComponent("Drake")}`}>
+            <motion.div transition={{duration: 0.5}} whileInView={{scale: 1.1}} className='h-100 scale-90 w-75 bg-[#31244463] cursor-pointer rounded-2xl p-3'>
+                <img className='w-75 h-70 object-center object-cover' src="./artist/nty.gif" />
+                    <h1 className='text-2xl pt-3'>Drake</h1>
                 <div className='flex items-center justify-between pt-2'>
-                <span className='text-2xl'>#1</span>
-                <FaPlay className='text-[#8e63f1] text-3xl'/>
-        </div>
+                    <span className='text-2xl'>#2 </span>
+                    <FaPlay className='text-[#8e63f1] text-3xl'/>
+                </div>
+            </motion.div>
+        </Link>
 
-        </motion.div>
+        <Link to={`/artist/${encodeURIComponent("Taylor Swift")}`}>
+            <motion.div transition={{duration: 0.5}} whileInView={{scale: 1.1}} className='flex  scale-90 flex-col justify-center h-120 w-110 bg-[#31244463] cursor-pointer rounded-2xl p-3'>
+                <img className='w-110 h-90 object-cover object-center' src="./artist/Taylor.webp" />
+                    <h1 className='text-2xl pt-3'>Taylor Swift</h1>
+                    <div className='flex items-center justify-between pt-2'>
+                    <span className='text-2xl'>#1</span>
+                    <FaPlay className='text-[#8e63f1] text-3xl'/>
+            </div>
+            </motion.div>
+        </Link>
+        
+        <Link to={`/artist/${encodeURIComponent("Bad Bunny")}`}>
             <motion.div transition={{duration: 0.5}} whileInView={{scale: 1.1}} className='h-100 scale-90 w-75 bg-[#31244463] cursor-pointer rounded-2xl p-3'>
                 <img className='w-75 h-70 object-cover object-center' src="./artist/bunny.webp" />
                     <h1 className='text-2xl pt-3'>Bad Bunny</h1>
@@ -39,6 +44,7 @@ function TopArtist() {
                     <FaPlay className='text-[#8e63f1] text-3xl'/>
                 </div>
             </motion.div>
+        </Link>
         </div>
     </div>
   )
