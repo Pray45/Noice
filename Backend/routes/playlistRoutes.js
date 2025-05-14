@@ -4,7 +4,7 @@ import { removeSongFromPlaylist,createPlaylist, getUserPlaylists, getPlaylistByI
 
 const PlaylistRouter = express.Router();
 
-PlaylistRouter.post('/add',authMiddleware , createPlaylist); 
+PlaylistRouter.post('/add',authMiddleware , upload.single('img'), createPlaylist); 
 PlaylistRouter.get('/list', authMiddleware, getUserPlaylists); 
 PlaylistRouter.get('/list/:id', authMiddleware, getPlaylistById);
 PlaylistRouter.put('/add-song/:id', authMiddleware, addSongToPlaylist); 

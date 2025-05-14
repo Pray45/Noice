@@ -25,7 +25,7 @@ function Playlist() {
     try {
       const formData = new FormData();
       formData.append('name', playlistName);
-      formData.append('img', playlistImage);
+      formData.append('coverImage', playlistImage);
 
       await axios.post(
         'https://noice-2ed8.onrender.com/api/playlist/add',
