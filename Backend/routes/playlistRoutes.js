@@ -1,5 +1,6 @@
 import express from 'express';
 import authMiddleware from '../middlewares/auth.middleware.js';
+import upload from "../middlewares/multer.middleware.js"
 import { removeSongFromPlaylist,createPlaylist, getUserPlaylists, getPlaylistById, updatePlaylist, deletePlaylist, addSongToPlaylist } from '../controllers/playlistController.js';
 
 const PlaylistRouter = express.Router();
