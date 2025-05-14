@@ -8,6 +8,7 @@ import Songrouter from './routes/songRoutes.js';
 import albumRouter from './routes/albumRoutes.js';
 import userRouter from './routes/userRouter.js';
 import ArtistRouter from './routes/artistRoutes.js';
+import PlaylistRouter from './routes/playlistRoutes.js';
 
 const app = express();
 dotenv.config();
@@ -28,6 +29,7 @@ connectCloudinary();
 app.use('/api/song' , Songrouter)
 app.use('/api/album' , albumRouter)
 app.use('/api/artist' , ArtistRouter)
+app.use('/api/playlist', PlaylistRouter);
 app.use('/api/user' , userRouter)
 
 

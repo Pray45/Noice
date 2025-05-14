@@ -38,6 +38,6 @@ const SongSchema = new mongoose.Schema({
 
 } , {timestamps : true})
 
-const Songmodel = mongoose.model("Song" , SongSchema)
+const Songmodel = mongoose.model("Songmodel" , SongSchema)
 
 export default Songmodel

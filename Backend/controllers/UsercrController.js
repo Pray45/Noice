@@ -20,10 +20,10 @@ const createUser = async (req, res) => {
     });
 
 
-    const token = jwt.sign({ userId: newUser._id, email: newUser.email }, "devilmaycry", { expiresIn: "1h" });
+    const token = jwt.sign({ userId: newUser._id, email: newUser.email }, process.env.JWT_SECRET , { expiresIn: "1h" });
 
 
-    res.cookie("token", token, { httpOnly: true, maxAge: 3600000 }); // 1 hour expiration
+    res.cookie("token", token, { httpOnly: true, maxAge: 3600000 }); 
     res.status(201).json({ success: true, user: newUser, token });
 
   } catch (error) {
@@ -42,7 +42,7 @@ const loginUser = async (req, res) => {
     const isPassCorrect = await bcrypt.compare(password, user.password);
 
     if (isPassCorrect) {
-      const token = jwt.sign({ userId: user._id, email: user.email }, "devilmaycry", { expiresIn: "1h" });
+      const token = jwt.sign({ userId: user._id, email: user.email }, process.env.JWT_SECRET , { expiresIn: "1h" });
       res.cookie("token", token, { httpOnly: true, maxAge: 3600000 }); 
       return res.status(200).json({ success: true, message: "Login successful", token, userName: user.username, userId: user._id });
     } else {
