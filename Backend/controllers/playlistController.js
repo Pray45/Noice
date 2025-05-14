@@ -1,5 +1,8 @@
 import Playlist from "../models/playlist.js";
 import Songmodel from '../models/song.model.js'
+import {v2 as cloudinary} from "cloudinary"
+import fs from 'fs';
+
 const createPlaylist = async (req, res) => {
   
   try {
@@ -20,7 +23,7 @@ const createPlaylist = async (req, res) => {
     res.status(201).json(playlist);
 
   } catch (err) {
-    res.status(500).json({ error: 'Failed to create playlist' });
+    res.status(400).json({err});
   }
 };
 
