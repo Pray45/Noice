@@ -16,7 +16,7 @@ const playlistSchema = new mongoose.Schema({
   },
   coverImage: {
     type: String,
-    required: true,
+    required: true, 
   },
 }, {
   timestamps: true,

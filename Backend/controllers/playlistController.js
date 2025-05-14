@@ -2,18 +2,23 @@ import Playlist from "../models/playlist.js";
 import Songmodel from '../models/song.model.js'
 const createPlaylist = async (req, res) => {
   
-  const { name, songs, coverImage } = req.body;
-
   try {
+    
+    const { name, songs } = req.body;
+    const coverImage = req.file
+    const imgUpload = await cloudinary.uploader.upload(coverImage.path , {resource_type: "image"})
+
     const playlist = new Playlist({
       name,
       songs,
-      coverImage,
+      coverImage: imgUpload.secure_url,
       user: req.user._id,
     });
 
     await playlist.save();
+    fs.unlinkSync(coverImage.path);
     res.status(201).json(playlist);
+
   } catch (err) {
     res.status(500).json({ error: 'Failed to create playlist' });
   }
