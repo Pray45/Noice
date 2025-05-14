@@ -76,7 +76,7 @@ function Playlist() {
             >
               <img
                 className="w-45 h-45 rounded-2xl justify-self-center mt-3 object-cover object-top"
-                src={e.img}
+                src={e.coverImage}
                 alt=""
               />
               <h1 className="pl-5 pt-3 text-xl">{e.name}</h1>
