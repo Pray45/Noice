@@ -6,11 +6,14 @@ const SongContext = createContext();
 export const DataProvider = ({ children }) => {
   const [songs, setSongs] = useState([]);
   const [album, setAlbum] = useState([]);
+  const [playlist, setPlaylist] = useState([]);
+  const [selectplaylist , setSelectplaylist] = useState()
   const [artist, setArtist] = useState([]);
   const [likedSongs, setLikedSongs] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const userId = localStorage.getItem("userId"); 
+  const userId = localStorage.getItem("userId");
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
     (async () => {
@@ -21,6 +24,8 @@ export const DataProvider = ({ children }) => {
         setAlbum(albumRes.data.album);
         const artistRes = await axios.get("https://noice-2ed8.onrender.com/api/artist/list", { withCredentials: true });
         setArtist(artistRes.data.artist);
+        const playlistRes = await axios.get("https://noice-2ed8.onrender.com/api/playlist/list",{ headers: { Authorization: `Bearer ${token}`}},{ withCredentials: true });
+        setPlaylist(playlistRes.data.playlists);
         setLoading(false);
       } catch (err) {
         console.error("Error fetching songs", err);
@@ -57,7 +62,7 @@ export const DataProvider = ({ children }) => {
   };
 
   return (
-    <SongContext.Provider value={{ songs, album, artist, likedSongs, likeSong, loading }}>
+    <SongContext.Provider value={{ songs, album, artist, playlist, likedSongs, likeSong, loading, selectplaylist, setSelectplaylist }}>
       {children}
     </SongContext.Provider>
   );

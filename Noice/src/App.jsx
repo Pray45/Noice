@@ -17,6 +17,7 @@ import Login from './components/LogReg/Login.jsx';
 import Register from './components/LogReg/Register.jsx';
 import AlbumSongs from './components/Album/AlbumSongs.jsx';
 import ArtistSongs from './components/Artist/ArtistSongs.jsx';
+import PlaylistSongs from './components/Playlists/Playlistsongs.jsx';
 
 function App() {
   const isLoggedIn = localStorage.getItem('loggedIn') == 'true';
@@ -39,6 +40,7 @@ function App() {
               <Route path="/artist/:artistName" element={<ArtistSongs />} />
               <Route path="/liked" element={<Liked />} />
               <Route path="/playlist" element={<Playlist />} />
+              <Route path="/:something" element={<PlaylistSongs />} />
               <Route path="/add" element={<AddSong />} />
               <Route path="/add/byadmin" element={<AddSongByAdmin />} />
             </Route>

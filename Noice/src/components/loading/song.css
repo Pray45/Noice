@@ -1,0 +1,39 @@
+@keyframes waveAnimation {
+  0%, 100% {
+    transform: scaleY(0.6);
+  }
+  50% {
+    transform: scaleY(1.5);
+  }
+}
+
+.song-wave {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 6px;
+  width: 160px;
+  height: 50px;
+  margin: auto;
+  margin-top: 40vh;
+}
+
+.song-wave div {
+  width: 6px;
+  height: 40%;
+  background: linear-gradient(180deg, #8f00ff, #ffffff);
+  border-radius: 4px;
+  animation: waveAnimation 1.2s infinite ease-in-out;
+  transform-origin: bottom;
+  box-shadow: 0 0 10px rgba(143, 0, 255, 0.5);
+}
+
+/* Stagger animation delay for wave effect */
+.song-wave div:nth-child(1) { animation-delay: 0s; }
+.song-wave div:nth-child(2) { animation-delay: 0.1s; }
+.song-wave div:nth-child(3) { animation-delay: 0.2s; }
+.song-wave div:nth-child(4) { animation-delay: 0.3s; }
+.song-wave div:nth-child(5) { animation-delay: 0.4s; }
+.song-wave div:nth-child(6) { animation-delay: 0.5s; }
+.song-wave div:nth-child(7) { animation-delay: 0.6s; }
+.song-wave div:nth-child(8) { animation-delay: 0.7s; }

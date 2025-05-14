@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { FaHeart } from "react-icons/fa";
 import { useSong } from '../../contaxt';
+import Songwave from '../loading/Songwave';
 
 function Liked() {
   const { songs, loading, likedSongs, likeSong } = useSong(); 
@@ -11,7 +12,7 @@ function Liked() {
 
   return loading ? (
     <div className='bg-gradient-to-r from-[#070011] to-[#1a012c] flex justify-center items-center w-9/11 min-h-screen absolute right-0 text-white'>
-      <h1 className='text-5xl animate-pulse'>Loading...</h1>
+      <Songwave/>
     </div>
   ) : (
     <div className={`bg-gradient-to-r from-[#070011] to-[#1a012c] w-9/11 min-h-screen absolute right-0 text-white px-10 py-8`}>

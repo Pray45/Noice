@@ -97,4 +97,22 @@ const addSongToPlaylist = async (req, res) => {
   }
 };
 
-export { createPlaylist, getUserPlaylists, getPlaylistById, updatePlaylist, deletePlaylist, addSongToPlaylist }
+const removeSongFromPlaylist = async (req, res) => {
+  const { playlistId, songId } = req.params;
+
+  try {
+    const playlist = await Playlist.findById(playlistId);
+    if (!playlist || playlist.user.toString() !== req.user._id.toString()) {
+      return res.status(403).json({ error: 'Access denied' });
+    }
+
+    playlist.songs = playlist.songs.filter(id => id.toString() !== songId);
+    await playlist.save();
+
+    res.json({ message: 'Song removed from playlist', playlist });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to remove song from playlist' });
+  }
+};
+
+export { createPlaylist, getUserPlaylists, getPlaylistById, updatePlaylist, deletePlaylist, addSongToPlaylist, removeSongFromPlaylist }

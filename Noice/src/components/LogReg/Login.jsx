@@ -17,6 +17,7 @@ const Login = () => {
         const userId = res.data.userId;
         const userName = res.data.userName;
         localStorage.setItem('userId', userId);
+        localStorage.setItem('token', res.data.token);
         localStorage.setItem('userName', userName);
         window.localStorage.setItem('loggedIn', "true");
         navigate('/');
@@ -25,7 +26,6 @@ const Login = () => {
       }
     } catch (error) {
       console.log(error);
-      toast.error(error.response.data.message);
     }
   };
 

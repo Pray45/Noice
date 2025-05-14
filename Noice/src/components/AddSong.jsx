@@ -3,6 +3,7 @@ import axios from "axios";
 import { toast } from 'react-toastify';
 import { IoMusicalNoteSharp, IoCamera } from "react-icons/io5";
 import { TiTick } from "react-icons/ti";
+import Songwave from './loading/Songwave';
 
 function AddSongByAdmin() {
   const [song, setSong] = useState(false);
@@ -46,7 +47,7 @@ function AddSongByAdmin() {
 
   return loading ? (
     <div className='bg-[#070011] flex justify-center items-center w-9/11 min-h-screen absolute right-0 text-white'>
-      <h1 className='text-5xl animate-pulse'>Loading...</h1>
+      <Songwave/>
     </div>
   ) : (
     <div className='w-9/11 bg-[#070011] min-h-screen absolute right-0 text-white px-10 py-8'>
