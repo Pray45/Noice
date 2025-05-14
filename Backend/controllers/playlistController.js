@@ -8,13 +8,10 @@ const createPlaylist = async (req, res) => {
   try {
     
     const { name } = req.body;
-    const songs = req.body.songs ? JSON.parse(req.body.songs) : [];
     const img = req.file
     const imgUpload = await cloudinary.uploader.upload(img.path , {resource_type: "image"})
-
     const playlist = new Playlist({
       name,
-      songs,
       coverImage: imgUpload.secure_url,
       user: req.user._id,
     });
