@@ -5,8 +5,8 @@ const createPlaylist = async (req, res) => {
   try {
     
     const { name, songs } = req.body;
-    const coverImage = req.file
-    const imgUpload = await cloudinary.uploader.upload(coverImage.path , {resource_type: "image"})
+    const img = req.file
+    const imgUpload = await cloudinary.uploader.upload(img.path , {resource_type: "image"})
 
     const playlist = new Playlist({
       name,
@@ -16,7 +16,7 @@ const createPlaylist = async (req, res) => {
     });
 
     await playlist.save();
-    fs.unlinkSync(coverImage.path);
+    fs.unlinkSync(img.path);
     res.status(201).json(playlist);
 
   } catch (err) {

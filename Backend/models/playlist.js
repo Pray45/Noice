@@ -14,7 +14,7 @@ const playlistSchema = new mongoose.Schema({
     ref: 'User',
     required: true,
   },
-  coverImage: {
+  img: {
     type: String,
     required: true, 
   },
