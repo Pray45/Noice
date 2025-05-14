@@ -102,7 +102,7 @@ function AddSongByAdmin() {
                 toast.error("Please upload a valid image file.");
               }
             }}
-            className={`w-[200px] h-[200px] flex justify-center items-center mt-2 rounded-md cursor-pointer 
+            className={`w-[200px] h-[200px] flex justify-center items-center mt-2 rounded-md cursor-pointer
               ${dragOverImg ? "border-2 border-purple-500" : "bg-[#12002c9f]"} transition-all`}
           >
             {

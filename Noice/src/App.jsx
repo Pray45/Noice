@@ -42,7 +42,7 @@ function App() {
               <Route path="/playlist" element={<Playlist />} />
               <Route path="/:something" element={<PlaylistSongs />} />
               <Route path="/add" element={<AddSong />} />
-              <Route path="/add/byadmin" element={<AddSongByAdmin />} />
+              <Route path="/addbyadmin" element={<AddSongByAdmin />} />
             </Route>
           ) : (
             <Route path="*" element={<Navigate to="/login" />} />
