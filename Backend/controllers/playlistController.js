@@ -22,7 +22,7 @@ const createPlaylist = async (req, res) => {
 const getUserPlaylists = async (req, res) => {
   const playlists = await Playlist.find({ user: req.user._id }).populate('songs');
   console.log(playlists)
-  res.json(playlists);
+  res.status(200).json({ success: true, playlists, message: "playlists listed successfully" });
   try {
   } catch (err) {
     res.status(500).json({ error: 'Failed to fetch playlists' });
@@ -35,7 +35,7 @@ const getPlaylistById = async (req, res) => {
     if (!playlist || playlist.user.toString() !== req.user._id.toString()) {
       return res.status(403).json({ error: 'Access denied' });
     }
-    res.json(playlist);
+    res.status(200).json({ success: true, playlist, message: "playlist listed successfully" });
   } catch (err) {
     res.status(500).json({ error: 'Failed to fetch playlist' });
   }
