@@ -11,6 +11,7 @@ function AddSongByAdmin() {
   const [name, setName] = useState("");
   const [artist, setArtist] = useState("");
   const [loading, setLoading] = useState(false);
+  const [artistalbum , setartistalbum] = useState("none");
   const [dragOverSong, setDragOverSong] = useState(false);
   const [dragOverImg, setDragOverImg] = useState(false);
 
@@ -26,6 +27,7 @@ function AddSongByAdmin() {
 
     const formData = new FormData();
     formData.append('name', name);
+    formData.append('artistalbum', artistalbum);
     formData.append('artist', artist);
     formData.append('audio', song);
     formData.append('img', img);
