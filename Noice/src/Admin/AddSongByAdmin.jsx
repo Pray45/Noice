@@ -65,7 +65,7 @@ function AddSongByAdmin() {
       <h1 className='text-5xl animate-pulse'>Loading...</h1>
     </div>
   ) : (
-    <div className='w-9/11 bg-[#070011] min-h-screen absolute right-0 text-white px-10 py-8'>
+    <div className='w-9/11 bg-[#070011] min-h-screen absolute right-0 text-white px-10'>
       <form onSubmit={onSubmit} className='space-y-6 max-w-fit flex flex-col justify-self-end pr-20 pt-10'>
 
         <div className='flex flex-col'>
