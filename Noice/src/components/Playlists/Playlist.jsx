@@ -23,7 +23,7 @@ function Playlist() {
       formData.append('songs', JSON.stringify([]));
 
       await axios.post(
-        'http://localhost:4000/api/playlist/add',
+        'https://noice-2ed8.onrender.com/api/playlist/add',
         formData,
         {
           headers: {
@@ -35,6 +35,7 @@ function Playlist() {
       setShowModal(false);
       setPlaylistName('');
       setPlaylistImage(null);
+      window.location.reload()
     } catch (err) {
       console.error('Error adding playlist:', err);
     }
