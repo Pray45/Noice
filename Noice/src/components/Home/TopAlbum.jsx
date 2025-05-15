@@ -16,7 +16,7 @@ function TopAlbum() {
         </div>
 
         <div  className='flex gap-5'>
-          <Card type={album} />
+          <Card type={album.slice(0,5)} sec={"album"} />
         </div>
       </div>
   )
