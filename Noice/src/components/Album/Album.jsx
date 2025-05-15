@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import {motion} from "framer-motion"
 import { useSong } from '../../contaxt';
+import Songwave from '../loading/Songwave';
 
 function Album() {
   
@@ -8,7 +9,7 @@ function Album() {
 
   return album.length === 0 ? (
     <div className='bg-[#070011] flex justify-center items-center w-9/11 min-h-screen absolute right-0 text-white'>
-      <h1 className='text-5xl animate-pulse'>Loading...</h1>
+      <Songwave/>
     </div>
     ) : (
       <div className='w-9/11 bg-gradient-to-r from-[#070011] to-[#1a012c] min-h-screen absolute right-0 text-white px-10 py-8'>

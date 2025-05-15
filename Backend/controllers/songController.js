@@ -79,4 +79,50 @@ const removeSong = async(req,res) => {
     }
 }
 
-export { addSong, listSong , removeSong}
+
+
+// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>    update song Album    <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+
+const updateAlbum = async (req, res) => {
+
+  try {
+
+    const { songId, newAlbum } = req.body;
+    const updatedSong = await Songmodel.findByIdAndUpdate(songId,{ album: newAlbum },{ new: true });
+
+    res.status(200).json({success: true,updatedSong,message: "Song album updated successfully"});
+
+  } catch (error) {
+
+    res.status(400).json({success: false, error, message: "Failed to update song album"});
+
+  }
+
+};
+
+
+
+// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>    update song ArtistAlbum    <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+
+const updateArtistAlbum = async (req, res) => {
+
+  try {
+
+    const { songId, newArtistAlbum } = req.body;
+    const updatedSong = await Songmodel.findByIdAndUpdate(songId,{ artistalbum: newArtistAlbum },{ new: true });
+
+    res.status(200).json({success: true,updatedSong,message: "Song album updated successfully"});
+
+  } catch (error) {
+
+    res.status(400).json({success: false, error, message: "Failed to update song artistalbum"});
+
+  }
+
+};
+
+
+
+export { addSong, listSong, removeSong, updateAlbum, updateArtistAlbum}
