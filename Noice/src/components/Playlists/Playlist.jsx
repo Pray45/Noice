@@ -1,11 +1,10 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useSong } from '../../contaxt';
 import { IoCamera } from "react-icons/io5";
-import Songwave from '../loading/Songwave';
+import Songwave from '../loading/Songwave.jsx';
 import axios from 'axios';
-import Card from '../../new/Card';
+import Card from '../../new/Card.jsx';
 
 function Playlist() {
   const { playlist, loading } = useSong();

@@ -1,9 +1,6 @@
-import React from 'react'
-import {Link} from 'react-router-dom'
-import {motion} from 'framer-motion'
-import { useSong } from '../../contaxt'
-import Songwave from '../loading/Songwave'
-import Card from '../../new/Card'
+import { useSong } from '../../contaxt.jsx'
+import Songwave from '../loading/Songwave.jsx'
+import Card from '../../new/Card.jsx'
 
 function Artist() {
   

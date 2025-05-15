@@ -1,7 +1,7 @@
 import { useParams, Link } from 'react-router-dom';
-import { useSong } from '../../contaxt';
-import Songs from "../../new/Songs";
-import Header from "../../new/header";
+import { useSong } from '../../contaxt.jsx';
+import Songs from "../../new/Songs.jsx";
+import Header from "../../new/Header.jsx";
 
 const AlbumSongs = () => {
   const { albumName } = useParams();

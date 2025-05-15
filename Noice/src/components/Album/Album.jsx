@@ -1,8 +1,6 @@
-import { Link } from 'react-router-dom';
-import {motion} from "framer-motion"
 import { useSong } from '../../contaxt';
 import Songwave from '../loading/Songwave';
-import Card from '../../new/Card';
+import Card from '../../new/Card.jsx';
 
 function Album() {
   
