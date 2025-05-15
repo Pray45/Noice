@@ -83,11 +83,12 @@ const deletePlaylist = async (req, res) => {
 
   try {
    
-    const playlist = await Playlist.findById(req.body.id);
+    const { id } = req.params;
+    const playlist = await Playlist.findById(id);
     
     if (!playlist || playlist.user.toString() !== req.user._id.toString())  return res.status(403).json({ error: 'Access denied' })
     
-    await Playlist.findByIdAndDelete(req.body.id);
+    await Playlist.findByIdAndDelete(id);
     res.status(200).json({ message: 'Playlist deleted successfully' });
     
   } catch (error) {
@@ -106,7 +107,7 @@ const addSongToPlaylist = async (req, res) => {
   try {
     
     const { songId } = req.body;
-    const playlist = await Playlist.findById(req.body.id);
+    const playlist = await Playlist.findById(req.params.id);
     
     if (!playlist || playlist.user.toString() !== req.user._id.toString()) return res.status(400).json({ error: 'Access denied' })
     

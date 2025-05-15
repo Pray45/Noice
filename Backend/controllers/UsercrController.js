@@ -104,7 +104,7 @@ const getLikedSongs = async (req, res) => {
   
   try {
 
-    const { userId } = req.body;
+    const { userId } = req.params;
     const user = await User.findById(userId);
     
     if (!user) return res.status(400).json({ success: false, message: "User not found" });
