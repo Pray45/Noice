@@ -20,9 +20,10 @@ function Playlist() {
       const formData = new FormData();
       formData.append('name', playlistName);
       formData.append('img', playlistImage);
+      formData.append('songs', JSON.stringify([]));
 
       await axios.post(
-        'https://noice-2ed8.onrender.com/api/playlist/add',
+        'http://localhost:4000/api/playlist/add',
         formData,
         {
           headers: {
@@ -76,7 +77,7 @@ function Playlist() {
             >
               <img
                 className="w-45 h-45 rounded-2xl justify-self-center mt-3 object-cover object-top"
-                src={e.coverImage}
+                src={e.img}
                 alt=""
               />
               <h1 className="pl-5 pt-3 text-xl">{e.name}</h1>

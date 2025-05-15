@@ -43,7 +43,7 @@ const loginUser = async (req, res) => {
 
     if (isPassCorrect) {
       const token = jwt.sign({ userId: user._id, email: user.email }, process.env.JWT_SECRET , { expiresIn: "1h" });
-      res.cookie("token", token, { httpOnly: true, maxAge: 3600000 }); 
+      res.cookie("token", token, { httpOnly: true, maxAge: 604800000}); 
       return res.status(200).json({ success: true, message: "Login successful", token, userName: user.username, userId: user._id });
     } else {
       return res.status(400).json({ success: false, message: "Wrong password" });

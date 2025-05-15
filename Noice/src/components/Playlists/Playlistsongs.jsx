@@ -4,6 +4,8 @@ import axios from 'axios';
 import { useSong } from '../../contaxt.jsx';
 import { FaHeart } from 'react-icons/fa';
 import Songwave from '../../components/loading/Songwave.jsx';
+import { useNavigate } from 'react-router-dom';
+
 
 const PlaylistSongs = () => {
   const { likedSongs, likeSong} = useSong();
@@ -54,6 +56,28 @@ const PlaylistSongs = () => {
 };
 
 
+const navigate = useNavigate();
+
+const deletePlaylist = async () => {
+  const confirmDelete = window.confirm('Are you sure you want to delete this playlist?');
+  if (!confirmDelete) return;
+
+  try {
+    await axios.delete(
+      `https://noice-2ed8.onrender.com/api/playlist/remove/${id}`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+        withCredentials: true,
+      }
+    );
+    navigate('/playlist');
+    window.location.reload();
+  } catch (err) {
+    console.error('Failed to delete playlist:', err.response?.data || err.message);
+    alert('Failed to delete playlist.');
+  }
+};
+
 
   if (!playlist) {
     return (
@@ -65,43 +89,37 @@ const PlaylistSongs = () => {
 
   return (
     <div className="text-white w-9/11 bg-gradient-to-r from-[#070011] to-[#1a012c] min-h-screen absolute right-0">
-      <motion.div
-        className="relative flex items-center gap-8 px-10 py-12 bg-gradient-to-r from-[#1d1030] via-[#3f1e54] to-[#070011] rounded-xl shadow-lg overflow-hidden"
+            <motion.div
+        className="relative flex flex-col md:flex-row items-center gap-8 p-8 bg-gradient-to-r from-[#1d1030] via-[#3f1e54] to-[#070011] rounded-2xl shadow-xl overflow-hidden"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1 }}
       >
-        <motion.div
-          className="relative z-10 w-64 h-64"
+        <motion.img
+          src={playlist.img}
+          alt={playlist.name}
+          className="w-64 h-64 rounded-2xl shadow-2xl object-cover"
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8 }}
-        >
-          <img
-            src={playlist.coverImage}
-            alt={playlist.name}
-            className="w-full h-full rounded-2xl shadow-2xl object-cover transform transition-transform duration-500"
-          />
-        </motion.div>
+        />
 
-        <div className="relative z-10 text-white max-w-2xl">
-          <motion.p
-            className="uppercase text-sm text-zinc-300 tracking-wider"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1, delay: 0.2 }}
-          >
-            Playlist
-          </motion.p>
+        <div className="flex-1 space-y-4">
+          <p className="uppercase text-sm text-zinc-400 tracking-widest">Playlist</p>
+          <h1 className="text-5xl font-extrabold">{playlist.name}</h1>
 
-          <motion.h1
-            className="text-5xl font-extrabold mt-4 text-gradient"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.4 }}
-          >
-            {playlist.name}
-          </motion.h1>
+          <div className="flex justify-between items-center mt-6">
+            <p className="text-zinc-400 text-sm">
+              {playlist.songs.length} song{playlist.songs.length !== 1 && 's'}
+            </p>
+
+            <button
+              onClick={deletePlaylist}
+              className="flex items-center gap-2 bg-purple-950 hover:bg-purple-900 px-6 py-2 rounded-full text-white font-semibold tracking-wide shadow-md hover:shadow-xl hover:scale-105 transition-all duration-300"
+            >
+              🗑️ Delete Playlist
+            </button>
+          </div>
         </div>
       </motion.div>
 

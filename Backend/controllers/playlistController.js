@@ -4,24 +4,37 @@ import {v2 as cloudinary} from "cloudinary"
 import fs from 'fs';
 
 const createPlaylist = async (req, res) => {
-  
   try {
-    
     const { name } = req.body;
-    const img = req.file
-    const imgUpload = await cloudinary.uploader.upload(img.path , {resource_type: "image"})
+    const songs = req.body.songs
+      ? typeof req.body.songs === 'string'
+        ? JSON.parse(req.body.songs)
+        : req.body.songs
+      : [];
+
+    const img = req.file;
+    if (!name || !img) {
+      return res.status(400).json({ error: 'Name and image are required.' });
+    }
+
+    const imgUpload = await cloudinary.uploader.upload(img.path, {
+      resource_type: 'image',
+    });
+
     const playlist = new Playlist({
       name,
-      coverImage: imgUpload.secure_url,
+      songs,
+      img: imgUpload.secure_url,
       user: req.user._id,
     });
 
     await playlist.save();
     fs.unlinkSync(img.path);
-    res.status(201).json(playlist);
 
+    res.status(201).json(playlist);
   } catch (err) {
-    res.status(400).json({err});
+    console.error('CREATE PLAYLIST ERROR:', err.message);
+    res.status(400).json({ error: err.message });
   }
 };
 
