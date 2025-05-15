@@ -12,15 +12,16 @@ function AddSongByAdmin() {
   const [name, setName] = useState("");
   const [artist, setArtist] = useState("");
   const [artistdata, setArtistdata] = useState([]);
-  const [artistalbum , setartistalbum] = useState("none");
+  const [artistalbum, setartistalbum] = useState("none");
   const [album, setAlbum] = useState("none");
   const [albumdata, setAlbumdata] = useState([]);
   const [loading, setLoading] = useState(false);
   const [dragOverSong, setDragOverSong] = useState(false);
   const [dragOverImg, setDragOverImg] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
 
-  const {songs} = useSong()
-  const songlist = songs
+  const { songs, setSonglist } = useSong();
+  const songlist = songs;
 
   useEffect(() => {
     (async () => {
@@ -32,12 +33,10 @@ function AddSongByAdmin() {
   }, []);
 
   const removeSong = async (id) => {
-      await axios.post("https://noice-2ed8.onrender.com/api/song/remove", { id });
-      toast.success("Song deleted!");
-      setSonglist(prev => prev.filter(s => s._id !== id));
+    await axios.post("https://noice-2ed8.onrender.com/api/song/remove", { id });
+    toast.success("Song deleted!");
+    setSonglist(prev => prev.filter(s => s._id !== id));
   };
-
-  
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -58,20 +57,25 @@ function AddSongByAdmin() {
     formData.append('img', img);
 
     try {
-        await axios.post("https://noice-2ed8.onrender.com/api/song/add", formData);
-        toast.success("Song added successfully!");
-        setName("");
-        setArtist("");
-        setAlbum("none");
-        setartistalbum("none");
-        setSong(false);
-        setImg(false);
-        setLoading(false);
+      await axios.post("https://noice-2ed8.onrender.com/api/song/add", formData);
+      toast.success("Song added successfully!");
+      setName("");
+      setArtist("");
+      setAlbum("none");
+      setartistalbum("none");
+      setSong(false);
+      setImg(false);
+      setLoading(false);
     } catch (err) {
-        toast.error("Upload failed. Try again.");
-        setLoading(false);
+      toast.error("Upload failed. Try again.");
+      setLoading(false);
     }
   };
+
+  const filteredSongs = songlist.filter(s =>
+    s.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    s.artist.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return loading ? (
     <div className='bg-[#070011] flex justify-center items-center w-9/11 min-h-screen absolute right-0 text-white'>
@@ -112,8 +116,6 @@ function AddSongByAdmin() {
         </div>
 
         <div className='flex gap-8'>
-
-          {/* Audio upload */}
           <div
             onClick={() => document.getElementById('song').click()}
             onDragOver={(e) => { e.preventDefault(); setDragOverSong(true); }}
@@ -159,73 +161,68 @@ function AddSongByAdmin() {
             }
             <input onChange={(e) => setImg(e.target.files[0])} type="file" id="img" accept="image/*" className='hidden' />
           </div>
-
         </div>
 
         <button type="submit" className="bg-[#12002c9f] hover:bg-[#2a0b569f] text-white py-2 px-4 rounded-md transition-all cursor-pointer">
           Submit
         </button>
-
       </form>
 
+      <h1 className='text-5xl mt-10'>Songs</h1>
+      <input
+        type="text"
+        placeholder="Search by song or artist..."
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        className="w-full px-4 py-2 mt-4 rounded-md bg-[#1f0038] text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-600"
+      />
 
+      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 mt-6'>
+        {filteredSongs.map((s) => (
+          <div key={s._id} className="bg-[#12002c9f] p-4 rounded-lg flex flex-col gap-3">
+            <div className="flex items-center gap-4 justify-between">
+              <div className="flex items-center gap-4">
+                <img src={s.img} alt={s.name} className="w-16 h-16 rounded object-cover" />
+                <div>
+                  <p className='font-bold'>{s.name}</p>
+                  <p className='text-sm text-gray-300'>{s.artist} • {s.album}</p>
+                </div>
+              </div>
+              <button onClick={() => removeSong(s._id)} className="text-red-500 hover:text-red-700 transition">
+                <MdDelete size={24} />
+              </button>
+            </div>
 
-      <div>
-            <h1 className='text-5xl'>Songs</h1>
-<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6'>
-  {songlist.map((s) => (
-    <div key={s._id} className="bg-[#12002c9f] p-4 rounded-lg flex flex-col gap-3">
-      <div className="flex items-center gap-4 justify-between">
-        <div className="flex items-center gap-4">
-          <img src={s.img} alt={s.name} className="w-16 h-16 rounded object-cover" />
-          <div>
-            <p className='font-bold'>{s.name}</p>
-            <p className='text-sm text-gray-300'>{s.artist} • {s.album}</p>
+            <div className="flex items-center justify-between">
+              <label htmlFor={`album-${s._id}`} className="text-sm font-semibold">Change Album:</label>
+              <select
+                id={`album-${s._id}`}
+                value={s.album}
+                onChange={async (e) => {
+                  const newAlbum = e.target.value;
+                  try {
+                    await axios.put("https://noice-2ed8.onrender.com/api/song/update", {
+                      songId: s._id,
+                      newAlbum
+                    });
+                    toast.success("Album updated");
+                    setSonglist(prev => prev.map(song =>
+                      song._id === s._id ? { ...song, album: newAlbum } : song
+                    ));
+                  } catch (err) {
+                    toast.error("Failed to update album");
+                  }
+                }}
+                className="bg-[#1f0038] px-2 py-1 rounded text-white"
+              >
+                {albumdata.map((albumOption, i) => (
+                  <option key={i} value={albumOption.name}>{albumOption.name}</option>
+                ))}
+              </select>
+            </div>
           </div>
-        </div>
-        <button onClick={() => removeSong(s._id)} className="text-red-500 hover:text-red-700 transition">
-          <MdDelete size={24} />
-        </button>
+        ))}
       </div>
-
-      {/* Album Dropdown */}
-      <div className="flex items-center justify-between">
-        <label htmlFor={`album-${s._id}`} className="text-sm font-semibold">Change Album:</label>
-        <select
-          id={`album-${s._id}`}
-          value={s.album}
-          onChange={async (e) => {
-            const newAlbum = e.target.value;
-            try {
-              await axios.put("https://noice-2ed8.onrender.com/api/song/update", {
-                songId: s._id,
-                newAlbum
-              });
-              toast.success("Album updated");
-              // Update frontend state
-              setSonglist(prev => prev.map(song =>
-                song._id === s._id ? { ...song, album: newAlbum } : song
-              ));
-            } catch (err) {
-              toast.error("Failed to update album");
-            }
-          }}
-          className="bg-[#1a003e] px-2 py-1 rounded-md text-sm focus:ring focus:ring-purple-500"
-        >
-          {albumdata.map((a, i) => (
-            <option key={i} value={a.name}>{a.name}</option>
-          ))}
-        </select>
-      </div>
-    </div>
-  ))}
-</div>
-
-      </div>
-
-
-
-
     </div>
   );
 }

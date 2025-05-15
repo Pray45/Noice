@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import axios from 'axios';
 import { useSong } from '../../contaxt.jsx';
-import { FaHeart } from 'react-icons/fa';
 import Songwave from '../../components/loading/Songwave.jsx';
 import { useNavigate } from 'react-router-dom';
+import Songs from '../../new/Songs.jsx';
 
 
 const PlaylistSongs = () => {
@@ -128,35 +128,7 @@ const deletePlaylist = async () => {
           <p className="text-zinc-400">No songs found in this album.</p>
         ) : (
           <div className="flex flex-col gap-4">
-            {playlist.songs.map((song, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
-                className="pl-5 flex gap-10 w-full justify-around items-center text-sm py-3 hover:bg-[#1a012c] rounded-md mt-1"
-              >
-                <div className="flex">
-                  <h1 className="w-8 h-10 flex items-center text-gray-400">{index + 1}</h1>
-                  <img src={song.img} alt={song.name} className="w-12 h-12 rounded object-cover" />
-                </div>
-
-                <h1 className="w-80 font-semibold text-white truncate">{song.name}</h1>
-                <h1 className="w-90 text-gray-300 truncate">{song.artist}</h1>
-                <h1 className="w-10 text-gray-300">{song.duration}</h1>
-
-                <input type="checkbox" id={song._id} className="hidden" />
-                <label htmlFor={song._id} className="text-md">
-                  <FaHeart
-                    className={`text-xl transition-all duration-500 ${
-                      isLiked(song._id) ? 'text-red-500' : 'text-white'
-                    }`}
-                    onClick={() => likeSong(song._id)}
-                  />
-                </label>
-                <button onClick={() => removeSong(song._id)} className="py-2.5 bg-[#12002c9f] hover:bg-[#2a0b569f] px-6 rounded-lg duration-300">remove</button>
-              </motion.div>
-            ))}
+            <Songs filteredSongs={playlist.songs} />
           </div>
         )}
       </div>

@@ -40,7 +40,7 @@ function App() {
               <Route path="/artist/:artistName" element={<ArtistSongs />} />
               <Route path="/liked" element={<Liked />} />
               <Route path="/playlist" element={<Playlist />} />
-              <Route path="/:something" element={<PlaylistSongs />} />
+              <Route path="/playlist/:something" element={<PlaylistSongs />} />
               <Route path="/add" element={<AddSong />} />
               <Route path="/addbyadmin" element={<AddSongByAdmin />} />
             </Route>
