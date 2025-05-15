@@ -122,7 +122,6 @@ function AddSongByAdmin() {
             <input onChange={(e) => setSong(e.target.files[0])} type="file" id="song" accept="audio/*" className='hidden' />
           </div>
 
-          {/* Image upload */}
           <div
             onClick={() => document.getElementById('img').click()}
             onDragOver={(e) => { e.preventDefault(); setDragOverImg(true); }}

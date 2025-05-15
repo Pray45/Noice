@@ -3,23 +3,19 @@ import Songmodel from '../models/song.model.js'
 import {v2 as cloudinary} from "cloudinary"
 import fs from 'fs';
 
+
+
+// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>    create playlist    <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+
 const createPlaylist = async (req, res) => {
+
   try {
+
     const { name } = req.body;
-    const songs = req.body.songs
-      ? typeof req.body.songs === 'string'
-        ? JSON.parse(req.body.songs)
-        : req.body.songs
-      : [];
-
+    const songs = req.body.songs? typeof req.body.songs === 'string'? JSON.parse(req.body.songs): req.body.songs: [];
     const img = req.file;
-    if (!name || !img) {
-      return res.status(400).json({ error: 'Name and image are required.' });
-    }
-
-    const imgUpload = await cloudinary.uploader.upload(img.path, {
-      resource_type: 'image',
-    });
+    const imgUpload = await cloudinary.uploader.upload(img.path, {resource_type: 'image',});
 
     const playlist = new Playlist({
       name,
@@ -31,107 +27,128 @@ const createPlaylist = async (req, res) => {
     await playlist.save();
     fs.unlinkSync(img.path);
 
-    res.status(201).json(playlist);
-  } catch (err) {
-    console.error('CREATE PLAYLIST ERROR:', err.message);
-    res.status(400).json({ error: err.message });
+    res.status(200).json({success: true, playlist, message: "playlist created successfully"});
+
+  } catch (error) {
+
+    res.status(400).json({ success: false, error , message: "Failed to create a playlist" });
+
   }
 };
+
+
+
+// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>    list playlist    <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
 
 const getUserPlaylists = async (req, res) => {
-  const playlists = await Playlist.find({ user: req.user._id }).populate('songs');
-  console.log(playlists)
-  res.status(200).json({ success: true, playlists, message: "playlists listed successfully" });
-  try {
-  } catch (err) {
-    res.status(500).json({ error: 'Failed to fetch playlists' });
-  }
-};
 
-const getPlaylistById = async (req, res) => {
   try {
+
+    const playlists = await Playlist.find({ user: req.user._id }).populate('songs');
+    res.status(200).json({ success: true, playlists, message: "playlists listed successfully" });
+
+  } catch (error) {
+
+    res.status(400).json({success: false, error, message: 'Failed to list playlists' });
+
+  }
+}
+
+
+// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>    open playlist    <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+
+const openPlaylist = async (req, res) => {
+
+  try {
+
     const playlist = await Playlist.findById(req.params.id).populate('songs');
-    if (!playlist || playlist.user.toString() !== req.user._id.toString()) {
-      return res.status(403).json({ error: 'Access denied' });
-    }
-    res.status(200).json({ success: true, playlist, message: "playlist listed successfully" });
-  } catch (err) {
-    res.status(500).json({ error: 'Failed to fetch playlist' });
+    
+    if (!playlist || playlist.user.toString() !== req.user._id.toString())  return res.status(403).json({ error: 'Access denied' });
+    res.status(200).json({ success: true, playlist, message: "playlist opened successfully" });
+
+  } catch (error) {
+
+    res.status(400).json({success: false, error, message: 'Failed to open playlists' });
+
   }
-};
+}
 
-const updatePlaylist = async (req, res) => {
-  const { name, songs, coverImage } = req.body;
 
-  try {
-    const playlist = await Playlist.findById(req.params.id);
-    if (!playlist || playlist.user.toString() !== req.user._id.toString()) {
-      return res.status(403).json({ error: 'Access denied' });
-    }
+// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>    delete playlist    <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-    if (name) playlist.name = name;
-    if (songs) playlist.songs = songs;
-    if (coverImage !== undefined) playlist.coverImage = coverImage;
-
-    await playlist.save();
-    res.json(playlist);
-  } catch (err) {
-    res.status(500).json({ error: 'Failed to update playlist' });
-  }
-};
 
 const deletePlaylist = async (req, res) => {
 
-    const playlist = await Playlist.findById(req.params.id);
-    if (!playlist || playlist.user.toString() !== req.user._id.toString()) {
-      return res.status(403).json({ error: 'Access denied' });
-    }
-    console.log(playlist);
-    await Playlist.findByIdAndDelete(req.params.id);
-    res.json({ message: 'Playlist deleted successfully' });
+  try {
+   
+    const playlist = await Playlist.findById(req.body.id);
+    
+    if (!playlist || playlist.user.toString() !== req.user._id.toString())  return res.status(403).json({ error: 'Access denied' })
+    
+    await Playlist.findByIdAndDelete(req.body.id);
+    res.status(200).json({ message: 'Playlist deleted successfully' });
+    
+  } catch (error) {
+
+    res.status(400).json({success: false, error, message: 'Failed to delete playlists' });
+    
+  }
 };
+
+
+// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>    addsong playlist    <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
 
 const addSongToPlaylist = async (req, res) => {
-  const { songId } = req.body;
-
-  if (!songId) {
-    return res.status(400).json({ error: 'Song ID is required' });
-  }
 
   try {
-    const playlist = await Playlist.findById(req.params.id);
-    if (!playlist || playlist.user.toString() !== req.user._id.toString()) {
-      return res.status(403).json({ error: 'Access denied' });
-    }
+    
+    const { songId } = req.body;
+    const playlist = await Playlist.findById(req.body.id);
+    
+    if (!playlist || playlist.user.toString() !== req.user._id.toString()) return res.status(400).json({ error: 'Access denied' })
+    
 
-    if (playlist.songs.includes(songId)) {
-      return res.status(400).json({ error: 'Song is already in the playlist' });
-    }
-
+    if (playlist.songs.includes(songId)) return res.status(400).json({ error: 'Song is already in the playlist' });
+    
     playlist.songs.push(songId);
     await playlist.save();
-    res.json(playlist);
-  } catch (err) {
-    res.status(500).json({ error: 'Failed to add song to playlist' });
+    res.status(200).json({success: true, playlist, message:"song added successfully in playlist"});
+
+  } catch (error) {
+
+    res.status(400).json({success: false, error, message: 'Failed to add song in playlists' });
+
   }
 };
+
+
+
+// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>    remove song from playlist    <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
 
 const removeSongFromPlaylist = async (req, res) => {
-  const { playlistId, songId } = req.params;
-
+  
   try {
-    const playlist = await Playlist.findById(playlistId);
-    if (!playlist || playlist.user.toString() !== req.user._id.toString()) {
-      return res.status(403).json({ error: 'Access denied' });
-    }
 
+    const { playlistId, songId } = req.params;
+    const playlist = await Playlist.findById(playlistId);
+
+    if (!playlist || playlist.user.toString() !== req.user._id.toString()) return res.status(400).json({ error: 'Access denied' })
+    
     playlist.songs = playlist.songs.filter(id => id.toString() !== songId);
     await playlist.save();
+    res.status(200).json({ success: true , message: 'Song removed from playlist', playlist });
 
-    res.json({ message: 'Song removed from playlist', playlist });
-  } catch (err) {
-    res.status(500).json({ error: 'Failed to remove song from playlist' });
+  } catch (error) {
+
+    res.status(400).json({ success: false, error,  message: 'Failed to remove song from playlist' });
+
   }
 };
 
-export { createPlaylist, getUserPlaylists, getPlaylistById, updatePlaylist, deletePlaylist, addSongToPlaylist, removeSongFromPlaylist }
+
+
+export { createPlaylist, getUserPlaylists, openPlaylist, deletePlaylist, addSongToPlaylist, removeSongFromPlaylist }

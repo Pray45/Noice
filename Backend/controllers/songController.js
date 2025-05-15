@@ -3,10 +3,10 @@ import fs from "fs"
 import Songmodel from "../models/song.model.js"
 
 
-// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<  Adding song  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>    adding song    <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 const addSong = async (req, res) => {
-    res.send("Hello im add song")
+
     try {    
 
         const { name, artist, artistalbum, album, playlist, liked} = req.body
@@ -27,41 +27,55 @@ const addSong = async (req, res) => {
             audio: audioUpload.secure_url,
             duration
         }
-        console.log(uploaded)
 
         const song = Songmodel(uploaded)
         await song.save()
         fs.unlinkSync(audio.path)
         fs.unlinkSync(img.path)
 
-        res.status(200).json({ success: true, message: "Song uploaded successfully" })
+        res.status(200).json({ success: true, song, message: "Song uploaded successfully" })
         
     } catch (error) {
-        res.status(400).json({ success: false, message: "Failed to upload song" })
-        console.log(error)
+
+        res.status(400).json({ success: false, error, message: "Failed to upload song" })
+
     }
 
 }
 
-// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<  Listing  song  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>    list songs    <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 const listSong = async (req, res) => {
+
     try {
+
         const songlist = await Songmodel.find({})
         res.status(200).json({ success: true, songlist, message: "Song listed successfully" })
+
     } catch (error) {
-        res.json({error: "error"})
+
+        res.status(400).json({success: false, error, message: "faild to list songs"})
+
     }
 }
 
-// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<  Removing song  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
+// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>    remove song    <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+
 
 const removeSong = async(req,res) => {
+
     try {
+
         await Songmodel.findByIdAndDelete(req.body.id)
         res.status(200).json({ success: true, message: "Song deleted successfully" })
+
     } catch (error) {
-        res.status(400).json({ success: false, message: "Failed to remove song" })
+
+        res.status(400).json({ success: false, error, message: "Failed to remove song" })
+
     }
 }
 
