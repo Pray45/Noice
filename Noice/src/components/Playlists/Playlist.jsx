@@ -7,7 +7,7 @@ import axios from 'axios';
 import Card from '../../new/Card.jsx';
 
 function Playlist() {
-  const { playlist, loading } = useSong();
+  const { playlist, loading, setLoading } = useSong();
   const [showModal, setShowModal] = useState(false);
   const [playlistName, setPlaylistName] = useState('');
   const [playlistImage, setPlaylistImage] = useState(null);
@@ -17,13 +17,14 @@ function Playlist() {
     if (!playlistName || !playlistImage) return;
 
     try {
+      setLoading(true)
       const formData = new FormData();
       formData.append('name', playlistName);
       formData.append('img', playlistImage);
       formData.append('songs', JSON.stringify([]));
 
       await axios.post(
-        'https://noice-2ed8.onrender.com/api/playlist/add',
+        'https://noice-2ed8.onrender.com/api/playlist/add', 
         formData,
         {
           headers: {
@@ -35,6 +36,7 @@ function Playlist() {
       setShowModal(false);
       setPlaylistName('');
       setPlaylistImage(null);
+      setLoading(false)
       window.location.reload()
     } catch (err) {
       console.error('Error adding playlist:', err);

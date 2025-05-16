@@ -5,6 +5,7 @@ import { IoMusicalNoteSharp, IoCamera } from "react-icons/io5";
 import { TiTick } from "react-icons/ti";
 import { MdDelete } from 'react-icons/md';
 import { useSong } from '../contaxt';
+import Songwave from '../components/loading/Songwave';
 
 function AddSongByAdmin() {
   const [song, setSong] = useState(false);
@@ -32,6 +33,11 @@ function AddSongByAdmin() {
     })();
   }, []);
 
+
+
+  //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> adding song
+
+
   const removeSong = async (id) => {
     await axios.post("https://noice-2ed8.onrender.com/api/song/remove", { id });
     toast.success("Song deleted!");
@@ -39,6 +45,7 @@ function AddSongByAdmin() {
   };
 
   const onSubmit = async (e) => {
+
     e.preventDefault();
     setLoading(true);
 
@@ -72,16 +79,33 @@ function AddSongByAdmin() {
     }
   };
 
+
+
+
+  //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> serching system
+
+
+
   const filteredSongs = songlist.filter(s =>
     s.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     s.artist.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+
+
+
+  //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> return
+
+
+
   return loading ? (
+
     <div className='bg-[#070011] flex justify-center items-center w-9/11 min-h-screen absolute right-0 text-white'>
-      <h1 className='text-5xl animate-pulse'>Loading...</h1>
+      <Songwave />
     </div>
+
   ) : (
+    
     <div className='w-9/11 bg-[#070011] min-h-screen absolute right-0 text-white px-10 pb-50'>
       <form onSubmit={onSubmit} className='space-y-6 max-w-fit flex flex-col justify-self-center pt-10'>
 

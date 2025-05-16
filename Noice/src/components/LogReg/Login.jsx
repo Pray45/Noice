@@ -1,11 +1,10 @@
 import React, { useState , useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom'
-import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 const Login = () => {
-  const navigate = useNavigate();
+
   const [input, setInput] = useState({ email: '', password: '' });
 
   const handleLogin = async(e) => {
@@ -20,7 +19,7 @@ const Login = () => {
         localStorage.setItem('token', res.data.token);
         localStorage.setItem('userName', userName);
         window.localStorage.setItem('loggedIn', "true");
-        navigate('/');
+        window.location.href = '/';
       } else {
         toast.error(res.data.message);
       }

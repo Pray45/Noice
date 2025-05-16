@@ -13,17 +13,24 @@ const AlbumSongs = () => {
 
   return (
     <div className="text-white w-9/11 bg-gradient-to-r from-[#070011] to-[#1a012c] min-h-screen absolute right-0">
-{currentAlbum && ( <Header current={currentAlbum} />)}
 
+      {currentAlbum && ( <Header current={currentAlbum} />)}
+      
       <div className="px-10 py-6">
+        
         {filteredSongs.length === 0 ? (
+          
           <p className="text-zinc-400">No songs found in this album.</p>
-            ) : (
+          ) : (
+          
           <div className="flex flex-col gap-4">
             <Songs filteredSongs={filteredSongs}/>
           </div>
-        )}
+
+          )}
+
       </div>
+      
     </div>
   );
 };
