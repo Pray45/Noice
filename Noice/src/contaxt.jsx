@@ -15,8 +15,14 @@ export const DataProvider = ({ children }) => {
   const [likedSongs, setLikedSongs] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const [queue, setQueue] = useState([]);
+  const [currentSong, setCurrentSong] = useState(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [isShuffle, setIsShuffle] = useState(false);
+  const [lastPlayed, setLastPlayed] = useState([]);
+
   
-  
+
   //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> setting local storages
 
 
@@ -75,12 +81,72 @@ export const DataProvider = ({ children }) => {
   //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> return...  
 
 
+  const playNow = (song) => {
+    
+    setCurrentSong(song);
+    setIsPlaying(true);
+    
+    setLastPlayed((prev) => {
+      const newHistory = [song, ...prev];
+      return newHistory
+    });
+
+    if (!queue.find((s) => s._id === song._id)) setQueue((prev) => [...prev, song])
+
+  }
+
+  const addToQueue = (song) => setQueue((prevQueue) => [...prevQueue, song])
+
+  const nextSong = () => {
+    
+    if (queue.length === 0 || !currentSong) return;
+
+    const currentIndex = queue.findIndex((s) => s._id === currentSong._id);
+    let nextIndex;
+
+    if (isShuffle) nextIndex = Math.floor(Math.random() * queue.length);
+    else nextIndex = (currentIndex + 1) % queue.length;
+
+    setCurrentSong(queue[nextIndex]);
+    setIsPlaying(true)
+
+    setLastPlayed((prev) => {
+      const newHistory = [queue[nextIndex], ...prev];
+      return newHistory.slice(0, 3);
+    })
+
+  }
+
+  const prevSong = () => {
+
+    if (queue.length === 0 || !currentSong) return;
+
+    const currentIndex = queue.findIndex((s) => s._id === currentSong._id);
+    const prevIndex = (currentIndex - 1 + queue.length) % queue.length;
+
+    setCurrentSong(queue[prevIndex]);
+    setIsPlaying(true);
+
+    setLastPlayed((prev) => {
+      const newHistory = [queue[prevIndex], ...prev];
+      return newHistory.slice(0, 3);
+    })
+
+  }
+
+  const toggleShuffle = () => setIsShuffle((prev) => !prev)
+
+  const clearQueue = () => {
+    setQueue([])
+    setCurrentSong(null)
+    setIsPlaying(false)
+  }
   
   return (
-    <SongContext.Provider value={{ songs, album, artist, playlist, setLoading, likedSongs, likeSong, loading, selectplaylist, setSelectplaylist }}>
+    <SongContext.Provider value={{  songs, album, artist, playlist, selectplaylist, setSelectplaylist, likedSongs, likeSong, loading, setLoading, queue, setQueue, currentSong, isPlaying, setIsPlaying, playNow, addToQueue, nextSong, prevSong, toggleShuffle, isShuffle, clearQueue, lastPlayed }}>
       {children}
     </SongContext.Provider>
-  );
-};
+  )
+}
 
 export const useSong = () => useContext(SongContext);
