@@ -13,7 +13,7 @@ const ArtistSongs = () => {
 
   return (
     <div className="text-white w-9/11 bg-gradient-to-r from-[#070011] to-[#1a012c] min-h-screen absolute right-0">
-    {currentArtist && ( <Header current={currentArtist}/> )}
+    {currentArtist && ( <Header current={currentArtist} filteredSongs={filteredSongs}/> )}
       <div className="px-10 py-6">
         {filteredSongs.length === 0 ? (
           <p className="text-zinc-400">No songs found in this Artist.</p>

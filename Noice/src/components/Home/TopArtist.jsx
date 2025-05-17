@@ -25,13 +25,13 @@ function TopArtist() {
         </Link>
 
         <Link to={`/artist/${encodeURIComponent("Taylor Swift")}`}>
-            <motion.div transition={{duration: 0.5}} whileInView={{scale: 1.1}} className='flex  scale-90 flex-col justify-center h-120 w-110 bg-[#31244463] cursor-pointer rounded-2xl p-3'>
-                <img className='w-110 h-90 object-cover object-center' src="./artist/Taylor.webp" />
+            <motion.div transition={{duration: 0.5}} whileInView={{scale: 1.1}} className='flex  scale-90 flex-col justify-center h-110 w-90 bg-[#31244463] cursor-pointer rounded-2xl p-3'>
+                <img className='w-100 h-90 object-cover object-center' src="./artist/Taylor.webp" />
                     <h1 className='text-2xl pt-3'>Taylor Swift</h1>
                     <div className='flex items-center justify-between pt-2'>
-                    <span className='text-2xl'>#1</span>
-                    <FaPlay className='text-[#8e63f1] text-3xl'/>
-            </div>
+                        <span className='text-2xl'>#1</span>
+                        <FaPlay className='text-[#8e63f1] text-3xl'/>
+                    </div>
             </motion.div>
         </Link>
         

@@ -1,8 +1,12 @@
 import React from 'react'
 import { motion } from "framer-motion";
-import { FaHeart } from "react-icons/fa";
+import { IoPlayCircle } from "react-icons/io5";
+import { useSong } from '../contaxt';
 
-function Header({current}) {
+
+function Header({current, filteredSongs}) {
+
+  const { setQueue } = useSong()
 
   return (
 
@@ -25,7 +29,11 @@ function Header({current}) {
           <motion.p className="text-lg text-zinc-300 mt-6 max-w-2xl" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.6 }}>
             {current.desc}
           </motion.p>
+
         </div>
+
+          <IoPlayCircle onClick={() => setQueue(filteredSongs)} className='text-6xl right-70 absolute bottom-10 cursor-pointer text-purple-600 duration-300 hover:text-purple-700'/>
+
     </motion.div>
 
 )

@@ -15,8 +15,8 @@ function TopAlbum() {
             <Link to='/album' className='text-md cursor-pointer text-[#635972] hover:text-white duration-500'>Show All</Link>
         </div>
 
-        <div  className='flex gap-5'>
-          <Card type={album.slice(0,5)} sec={"album"} />
+        <div  className='flex gap-5 overflow-x-auto'>
+          <Card type={album.slice(0,7)} sec={"album"} />
         </div>
       </div>
   )
