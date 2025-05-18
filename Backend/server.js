@@ -13,13 +13,11 @@ import PlaylistRouter from './routes/playlistRoutes.js';
 const app = express();
 dotenv.config();
 
-const corsOptions = {
-  origin: [ 'https://noice-2ed8.onrender.com', 'http://localhost:5173', 'https://noice-cv.vercel.app' ],
-  credentials: true, 
-};
-
-
-app.use(cors(corsOptions));
+app.use(cors({
+  origin: 'https://noice-cv.vercel.app',
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  credentials: true,
+}));
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
