@@ -188,7 +188,7 @@ function Controller() {
       if (!currentsng?.name || !currentsng?.artist) return;
 
       try {
-        const response = await axios.post('https://noice-2ed8.onrender.com/api/lyrics', {
+        const response = await axios.post('https://noice-2ed8.onrender.com/api/getlyrics', {
           songName: currentsng.name,
           artist: currentsng.artist
         });
@@ -354,7 +354,7 @@ function Controller() {
                   <h1 className='text-2xl w-100 truncate text-white pl-1 pt-3'>{currentsng.artist}</h1>
                 </div>
                 <div>
-                  <p>
+                  <p className='whitespace-pre-line'>
                     {data.lyrics}
                   </p>
                 </div>

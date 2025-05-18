@@ -15,7 +15,7 @@
   dotenv.config();
 
   app.use(cors({
-    origin: 'https://noice-cv.vercel.app',
+    origin: ['https://noice-cv.vercel.app', 'http://localhost:5173'],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     credentials: true,
   }));
