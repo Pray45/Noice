@@ -5,10 +5,11 @@ import { useSong } from '../../contaxt.jsx';
 import Songwave from '../../components/loading/Songwave.jsx';
 import { useNavigate } from 'react-router-dom';
 import Songs from '../../new/Songs.jsx';
+import { IoPlayCircle } from "react-icons/io5";
 
 
 const PlaylistSongs = () => {
-  const { likedSongs, likeSong} = useSong();
+  const { likedSongs, likeSong, setQueue} = useSong();
   const id = localStorage.getItem("selectplaylist")
   const [playlist, setPlaylist] = useState(null);
   const token = localStorage.getItem('token');
@@ -28,7 +29,6 @@ const PlaylistSongs = () => {
         setPlaylist(res.data.playlist);
       } catch (err) {
         console.error('Failed to load playlist:', err.response?.data || err.message);
-        setError('Failed to load playlist, please try again later.');
       }
     };
 
@@ -119,6 +119,9 @@ const deletePlaylist = async () => {
             >
               🗑️ Delete Playlist
             </button>
+
+            <IoPlayCircle onClick={() => setQueue(playlist.songs)} className='text-6xl right-60 absolute bottom-19 cursor-pointer text-purple-600 duration-300 hover:text-purple-700'/>
+
           </div>
         </div>
       </motion.div>

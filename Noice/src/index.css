@@ -2,3 +2,36 @@
 ::-webkit-scrollbar {
     display: none;
 }
+.custom-range {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 6px;
+  background: linear-gradient(to right, white 0%, gray 0%);
+  border-radius: 3px;
+  outline: none;
+  pointer-events: auto;
+}
+
+/* Hide the thumb */
+.custom-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 0;
+  height: 0;
+  background: transparent;
+  border: none;
+}
+
+.custom-range::-moz-range-thumb {
+  width: 0;
+  height: 0;
+  background: transparent;
+  border: none;
+}
+
+/* Firefox track background */
+.custom-range::-moz-range-track {
+  background: gray;
+  height: 6px;
+  border-radius: 3px;
+}
