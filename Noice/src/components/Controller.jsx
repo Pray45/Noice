@@ -1,4 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
+import axios from 'axios'
+import Songwave from "./loading/Songwave.jsx"
 import { useSong } from '../contaxt'
 import { FaHeart } from 'react-icons/fa'
 import { HiMiniQueueList } from "react-icons/hi2"
@@ -8,6 +10,7 @@ import { FaPlay, FaPause } from "react-icons/fa6"
 import { IoPlaySkipForward, IoPlaySkipBackSharp } from "react-icons/io5"
 import { AnimatePresence, motion, Reorder } from "framer-motion"
 import { IoRemoveSharp } from "react-icons/io5"
+import { MdLyrics } from "react-icons/md";
 
 function Controller() {
   const {
@@ -23,6 +26,8 @@ function Controller() {
 
   const audioRef = useRef(null);
   const [showQueue, setShowQueue] = useState(false);
+  const [showLyrics, setShowLyrics] = useState(false);
+  const [lyrics, setLyrics] = useState('');
 
   const isLiked = (songId) => likedSongs.includes(songId);
 
@@ -177,8 +182,29 @@ function Controller() {
     });
   };
 
+  useEffect(() => {
+    
+    const fetchLyrics = async () => {
+      if (!currentsng?.name || !currentsng?.artist) return;
+
+      try {
+        const response = await axios.post('https://noice-2ed8.onrender.com/api/lyrics', {
+          songName: currentsng.name,
+          artist: currentsng.artist
+        });
+
+        setLyrics(response.data.lyrics);
+      } catch (error) {
+        console.error('Error fetching lyrics:', error);
+        setLyrics('Lyrics not available.');
+      }
+    };
+
+    fetchLyrics();
+  }, [currentsng]);
+
   return (
-    <>
+    <div className='z-50'>
       <audio ref={audioRef} src={currentsng?.audio} preload="auto" />
 
       <div className='flex justify-between items-center h-16 p-2 w-full fixed bottom-0 backdrop-blur-md bg-black/40 border-t border-purple-800 text-white z-50'>
@@ -222,19 +248,26 @@ function Controller() {
 
         {/* Right: Shuffle, Repeat, Queue */}
         <div className='flex items-center gap-6 w-1/3 justify-end pr-4'>
+          
+          <MdLyrics 
+            onClick={() =>{setShowLyrics(!showLyrics);}}
+            className={`text-2xl cursor-pointer ${showLyrics ? 'text-purple-500' : ''}`} 
+            title="Lyrics"
+          />
+
           <PiShuffleBold
             onClick={() => setShuffle(!shuffle)}
-            className={`text-xl cursor-pointer ${shuffle ? 'text-purple-500' : ''}`}
+            className={`text-2xl cursor-pointer ${shuffle ? 'text-purple-500' : ''}`}
             title="Shuffle"
           />
           <RiRepeat2Fill
             onClick={() => setRepeat(!repeat)}
-            className={`text-xl cursor-pointer ${repeat ? 'text-purple-500' : ''}`}
+            className={`text-2xl cursor-pointer ${repeat ? 'text-purple-500' : ''}`}
             title="Repeat"
           />
           <HiMiniQueueList
             onClick={() => setShowQueue(!showQueue)}
-            className='text-xl cursor-pointer'
+            className={`text-2xl cursor-pointer ${showQueue ? 'text-purple-500' : ''}`}
             title="Queue"
           />
         </div>
@@ -299,7 +332,52 @@ function Controller() {
           </motion.div>
         )}
       </AnimatePresence>
-    </>
+
+
+      <AnimatePresence>
+        {
+          showLyrics && (
+          <motion.div
+            initial={{ y: 1000 }}
+            animate={{ y: 0 }}
+            exit={{ y  : 1000, transition: { duration: 0.5 } }}
+            transition={{ duration: 0.5 }}
+            className='fixed bottom-0 top-5 right-10 rounded-lg h-[90vh] verflow-y-auto w-[95vw] p-4 z-10 bg-[rgba(37,21,64,0.74)] shadow-[0_4px_30px_rgba(0,0,0,0.1)] backdrop-blur-[9px] border border-[rgba(39,0,50,0.46)]'
+          >
+
+            {currentsng ? 
+
+              <div className='flex gap-15'>
+                <div>
+                  <img src={currentsng.img} className='rounded-lg w-100 h-100' alt="" />
+                  <h1 className='text-3xl w-100 truncate text-white pl-1 pt-3'>{currentsng.name}</h1>
+                  <h1 className='text-2xl w-100 truncate text-white pl-1 pt-3'>{currentsng.artist}</h1>
+                </div>
+                <div>
+                  <p>
+                    {data.lyrics}
+                  </p>
+                </div>
+              </div>
+
+              :
+
+              <div className='flex flex-col items-center'>
+                <h1 className='text-white font-semibold text-4xl'>
+                Please select a song first  
+                </h1>
+                <Songwave />
+              </div>
+
+            }
+
+          </motion.div>
+          )
+        }
+        </AnimatePresence>
+
+
+    </div>
   )
 }
 
