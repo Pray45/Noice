@@ -9,17 +9,16 @@ import albumRouter from './routes/albumRoutes.js';
 import userRouter from './routes/userRouter.js';
 import ArtistRouter from './routes/artistRoutes.js';
 import PlaylistRouter from './routes/playlistRoutes.js';
+import openAiRouter from './routes/openAiRouter.js';
 
 const app = express();
 dotenv.config();
 
-const corsOptions = {
-  origin: [ 'https://noice-2ed8.onrender.com', 'http://localhost:5173', 'https://noice-cv.vercel.app' ],
-  credentials: true, 
-};
-
-
-app.use(cors(corsOptions));
+app.use(cors({
+  origin: 'https://noice-cv.vercel.app',
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  credentials: true,
+}));
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
@@ -31,6 +30,7 @@ app.use('/api/album' , albumRouter)
 app.use('/api/artist' , ArtistRouter)
 app.use('/api/playlist', PlaylistRouter);
 app.use('/api/user' , userRouter)
+app.use('/api/lyrics' , openAiRouter)
 
 
 app.get('/', (req, res) => {
