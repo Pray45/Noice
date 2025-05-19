@@ -1,37 +1,51 @@
 @import "tailwindcss";
+
 ::-webkit-scrollbar {
     display: none;
 }
-.custom-range {
-  -webkit-appearance: none;
+
+/* Custom Range Slider */
+input[type="range"].slider {
+  -webkit-appearance: none; /* For Chrome & Safari */
   width: 100%;
-  height: 6px;
-  background: linear-gradient(to right, white 0%, gray 0%);
-  border-radius: 3px;
+  height: 4px;
+  border-radius: 4px;
+  background: #9d4edd; /* Base track color */
   outline: none;
-  pointer-events: auto;
 }
 
-/* Hide the thumb */
-.custom-range::-webkit-slider-thumb {
+input[type="range"].slider::-webkit-slider-thumb {
   -webkit-appearance: none;
-  appearance: none;
-  width: 0;
-  height: 0;
-  background: transparent;
-  border: none;
+  height: 13px;
+  width: 13px;
+  border-radius: 50%;
+  background: white;
+  cursor: pointer;
+  border: 2px solid #9d4edd;
+  transition: background 0.3s ease;
 }
 
-.custom-range::-moz-range-thumb {
-  width: 0;
-  height: 0;
-  background: transparent;
-  border: none;
+input[type="range"].slider::-webkit-slider-thumb:hover {
+  background: #c77dff;
 }
 
-/* Firefox track background */
-.custom-range::-moz-range-track {
-  background: gray;
-  height: 6px;
-  border-radius: 3px;
+input[type="range"].slider::-moz-range-thumb {
+  height: 10px;
+  width: 10px;
+  border-radius: 50%;
+  background: white;
+  cursor: pointer;
+  border: 2px solid #9d4edd;
+  transition: background 0.3s ease;
+}
+
+input[type="range"].slider::-moz-range-thumb:hover {
+  background: #c77dff;
+}
+
+/* Firefox track */
+input[type="range"].slider::-moz-range-track {
+  background: #9d4edd;
+  height: 4px;
+  border-radius: 4px;
 }

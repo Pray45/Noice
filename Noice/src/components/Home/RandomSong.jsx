@@ -35,13 +35,25 @@ function RandomSong() {
     }
   };
 
+
+  const getRandomSongs = (songs, count = 10) => {
+  const array = [...songs];
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array.slice(0, count);
+};
+
+const randomSongs = getRandomSongs(songs, 10);
+
   return (
-    <div className="bg-gradient-to-r from-[#070011] to-[#1a012c] text-white py-8 px-5 rounded-xl">
+    <div className="bg-gradient-to-r from-[#070011] to-[#1a012c] text-white py-8 px-5 pb-30 rounded-xl">
       <div className='flex justify-between mb-10 items-end'>
         <h1 className='text-3xl font-bold text-white'>Songs</h1>
         <Link to='/song' className='text-md cursor-pointer text-[#635972] hover:text-white duration-500'>Show All</Link>
       </div>
-        <Songs filteredSongs={songs.slice(0,10)} />
+        <Songs filteredSongs={randomSongs} />
     </div>
   )
 }

@@ -16,7 +16,7 @@ function Liked() {
       <Songwave/>
     </div>
   ) : (
-    <div className={`bg-gradient-to-r from-[#070011] to-[#1a012c] w-9/11 min-h-screen absolute right-0 text-white px-10 py-8`}>
+    <div className={`bg-gradient-to-r from-[#070011] to-[#1a012c] w-9/11 min-h-screen absolute right-0 text-white px-10 pb-20 py-8`}>
       <Songs filteredSongs={likedSongsList} />
     </div>
   );

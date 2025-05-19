@@ -24,11 +24,11 @@ function SongList() {
       <Songwave />
     </div>
   ) : (
-    <div className="bg-gradient-to-r from-[#070011] to-[#1a012c] w-9/11 min-h-screen absolute right-0 text-white px-10 py-8">
+    <div className="bg-gradient-to-r from-[#070011] to-[#1a012c] w-9/11 min-h-screen absolute right-0 text-white px-10 pb-30 py-8">
       <input type="text" placeholder="Search by song or artist..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} className="w-full px-4 py-2 mb-6 rounded-md bg-[#1f0038] text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-600"/>
 
       <Songs filteredSongs={filteredSongs} />
-      
+            
     </div>
   );
 }

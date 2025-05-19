@@ -11,6 +11,7 @@ import { IoPlaySkipForward, IoPlaySkipBackSharp } from "react-icons/io5"
 import { AnimatePresence, motion, Reorder } from "framer-motion"
 import { IoRemoveSharp } from "react-icons/io5"
 import { MdLyrics } from "react-icons/md";
+import '../index.css'
 
 function Controller() {
   const {
@@ -239,7 +240,7 @@ function Controller() {
               max={duration}
               value={handleTime}
               onChange={handleSliderChange}
-              className='w-full'
+              className='slider w-full'
             />
             <span>{formatTime(duration)}</span>
           </div>

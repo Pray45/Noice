@@ -37,11 +37,11 @@ function Nav() {
 
   return (
     <div className='fixed min-w-2/11 min-h-screen bg-[#0A0019]'>
-        <div className='flex gap-5 w-full pl-12 pt-5 pb-5 cursor-pointer border-b-2 border-[#1a0040]'>
+        <div className='flex gap-3 w-full pl-12 pt-5 pb-5 cursor-pointer border-b-2 border-[#1a0040]'>
             <FaUserCircle className='text-purple-800 text-5xl mt-2'/>
             <div>
                 <h1 className='text-white pt-1 text-xl self-center'>{Name}</h1>
-                <h1 className='text-zinc-500 text-md self-center'>{Msg}</h1>
+                <h1 className='text-zinc-500 text-sm self-center truncate'>{Msg}</h1>
             </div>
         </div>
         <div className='text-white pl-6 h-[70vh] overflow-auto'>
