@@ -1,9 +1,9 @@
-import React,{useState} from 'react'
-import {Link} from 'react-router-dom'
+import React, { useState, useMemo } from 'react';
+import { Link } from 'react-router-dom';
 import axios from "axios";
-import { useSong } from '../../contaxt'
-import {motion} from 'framer-motion'
-import { FaHeart } from "react-icons/fa"
+import { useSong } from '../../contaxt';
+import { motion } from 'framer-motion';
+import { FaHeart } from "react-icons/fa";
 import Songs from '../../new/Songs';
 
 function RandomSong() {
@@ -35,17 +35,16 @@ function RandomSong() {
     }
   };
 
-
   const getRandomSongs = (songs, count = 10) => {
-  const array = [...songs];
-  for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
-  }
-  return array.slice(0, count);
-};
+    const array = [...songs];
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array.slice(0, count);
+  };
 
-const randomSongs = getRandomSongs(songs, 10);
+  const randomSongs = useMemo(() => getRandomSongs(songs, 10), [songs]);
 
   return (
     <div className="bg-gradient-to-r from-[#070011] to-[#1a012c] text-white py-8 px-5 pb-30 rounded-xl">
@@ -53,9 +52,9 @@ const randomSongs = getRandomSongs(songs, 10);
         <h1 className='text-3xl font-bold text-white'>Songs</h1>
         <Link to='/song' className='text-md cursor-pointer text-[#635972] hover:text-white duration-500'>Show All</Link>
       </div>
-        <Songs filteredSongs={randomSongs} />
+      <Songs filteredSongs={randomSongs} />
     </div>
-  )
+  );
 }
 
-export default RandomSong
+export default RandomSong;
