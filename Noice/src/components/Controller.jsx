@@ -192,7 +192,7 @@ function Controller() {
           songName: currentsng.name,
           artist: currentsng.artist
         });
-
+        console.log(response.data.lyrics)
         setLyrics(response.data.lyrics);
       } catch (error) {
         console.error('Error fetching lyrics:', error);
@@ -281,7 +281,7 @@ function Controller() {
             animate={{ x: 0 }}
             exit={{ x: 300, transition: { duration: 0.3 } }}
             transition={{ duration: 0.3 }}
-            className='fixed bottom-0 right-0 top-0 w-80 overflow-y-auto bg-[#0A0019] p-4 -z-60 shadow-lg'
+            className='fixed bottom-0 right-0 top-0 w-80 overflow-y-auto p-4 -z-60 bg-[rgba(37,21,64,0.74)] shadow-[0_4px_30px_rgba(0,0,0,0.1)] backdrop-blur-[9px] border border-[rgba(39,0,50,0.46)]'
           >
             {/* Currently Playing */}
             {currentsng && (
@@ -347,15 +347,15 @@ function Controller() {
 
             {currentsng ? 
 
-              <div className='flex gap-15'>
+              <div className='flex gap-20 pt-5 pl-10'>
                 <div>
                   <img src={currentsng.img} className='rounded-lg w-100 h-100' alt="" />
                   <h1 className='text-3xl w-100 truncate text-white pl-1 pt-3'>{currentsng.name}</h1>
                   <h1 className='text-2xl w-100 truncate text-white pl-1 pt-3'>{currentsng.artist}</h1>
                 </div>
-                <div>
-                  <p className='whitespace-pre-line'>
-                    {data.lyrics}
+                <div className='h-160 overflow-auto'>
+                  <p className='whitespace-pre-line text-white text-4xl font-semibold'>
+                    {lyrics}
                   </p>
                 </div>
               </div>

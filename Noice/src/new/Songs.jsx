@@ -99,7 +99,7 @@ function Songs({ filteredSongs }) {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: idx * 0.05 }}
             className={`relative flex w-full justify-around gap-10 items-center text-sm py-3 hover:bg-[#1a012c] rounded-md mt-1 ${
-              currentsng?._id === song._id ? 'bg-[#330066]' : ''
+              currentsng?._id === song._id ? 'bg-[#1a012c]' : ''
             }`}
           >
             <div className="flex items-center gap-3">

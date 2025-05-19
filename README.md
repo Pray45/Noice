@@ -1,6 +1,6 @@
-# Noice
+# Noice 
 
-Welcome to **Noice**, a sleek and powerful **full-stack** music streaming web-app designed to bring your favorite tunes to your fingertips. Built with modern web technologies, Noice offers an immersive, intuitive, and customizable way to listen, organize, and share music — anywhere, anytime.
+**Noice where music comes alive**, a sleek and powerful **full-stack** music streaming web-app designed to bring your favorite tunes to your fingertips. Built with modern web technologies, Noice offers an immersive, intuitive, and customizable way to listen
 
 ---
 
@@ -21,6 +21,7 @@ Welcome to **Noice**, a sleek and powerful **full-stack** music streaming web-ap
 | Backend        | Node.js, Express.js, MongoDB, Mongoose  |
 | Authentication | JWT, bcrypt                             |
 | Media Storage  | Cloudinary                              |
+| AI  | Gemini flash2.0 (for Lyrics Generation)                              |
 
 ---
 
@@ -50,14 +51,14 @@ cd ../server && npm install
 ```
 3. **Configure environment variables**
 Create .env in the /server folder:
-```bash
-PORT=5000
+```js
+PORT=4000
 MONGODB_URI=your_mongodb_connection_string
 JWT_SECRET=your_jwt_secret
 CLOUDINARY_CLOUD_NAME=your_cloud_name
 CLOUDINARY_API_KEY=your_api_key
 CLOUDINARY_API_SECRET=your_api_secret
-
+GEMINI_AI_KEY=your_api_key
 ```
 4. **Run the app**
 
