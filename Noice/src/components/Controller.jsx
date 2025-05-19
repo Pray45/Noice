@@ -192,7 +192,6 @@ function Controller() {
           songName: currentsng.name,
           artist: currentsng.artist
         });
-        console.log(response.data.lyrics)
         setLyrics(response.data.lyrics);
       } catch (error) {
         console.error('Error fetching lyrics:', error);
