@@ -6,11 +6,11 @@
 
 ## 🎨 UI Preview
 
-![App Screenshot](../Noice/Noice/public/Home.png)
+![App Screenshot](https://res.cloudinary.com/dw2wewmuj/image/upload/v1747673364/Home_axbkl9.png)
 ---
-![App Screenshot](../Noice/Noice/public/Admin.png)
+![App Screenshot](https://res.cloudinary.com/dw2wewmuj/image/upload/v1747673363/Admin_zob0ia.png)
 ---
-![App Screenshot](../Noice/Noice/public/Playlist.png)
+![App Screenshot](https://res.cloudinary.com/dw2wewmuj/image/upload/v1747673364/Playlist_wnv2ab.png)
 
 
 ---
