@@ -6,9 +6,11 @@
 
 ## 🎨 UI Preview
 
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
+![App Screenshot](../Noice/Noice/public/Home.png)
+---
+![App Screenshot](../Noice/Noice/public/Admin.png)
+---
+![App Screenshot](../Noice/Noice/public/Playlist.png)
 
 
 ---
