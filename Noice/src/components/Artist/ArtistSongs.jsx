@@ -18,7 +18,7 @@ const ArtistSongs = () => {
         {filteredSongs.length === 0 ? (
           <p className="text-zinc-400">No songs found in this Artist.</p>
             ) : (
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-4 pb-20">
             <Songs filteredSongs={filteredSongs}/>
           </div>
         )}
