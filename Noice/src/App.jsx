@@ -22,8 +22,7 @@ import ArtistSongs from './components/Artist/ArtistSongs.jsx';
 import PlaylistSongs from './components/Playlists/Playlistsongs.jsx';
 
 function App() {
-
-  const isLoggedIn = localStorage.getItem('loggedIn') == 'true'; //checking is user loggedin or not by token
+  const isLoggedIn = localStorage.getItem('loggedIn') === 'true' || !!localStorage.getItem('token');
 
   return (
     <>

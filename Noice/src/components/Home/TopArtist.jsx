@@ -15,7 +15,7 @@ function TopArtist() {
         
         <Link to={`/artist/${encodeURIComponent("Drake")}`}>
             <motion.div transition={{duration: 0.5}} whileInView={{scale: 1.1}} className='h-1/5 scale-90 w-6/7 bg-[#31244463] cursor-pointer rounded-2xl p-3'>
-                <img className='w-[20vw] h-[40vh] object-cover' src="./artist/nty.gif" />
+                <img className='w-[20vw] h-[40vh] object-cover rounded-xl' src="/artist/nty.gif" alt="Drake" />
                     <h1 className='text-2xl pt-3'>Drake</h1>
                 <div className='flex items-center justify-between pt-2'>
                     <span className='text-2xl'>#2 </span>
@@ -25,8 +25,8 @@ function TopArtist() {
         </Link>
 
         <Link to={`/artist/${encodeURIComponent("Taylor Swift")}`}>
-            <motion.div transition={{duration: 0.5}} whileInView={{scale: 1.1}} className='flex  scale-90 flex-col justify-center h-3/5 w-7/8 bg-[#31244463] cursor-pointer rounded-2xl p-3'>
-                <img className='w-100 h-90 object-cover object-center' src="./artist/Taylor.webp" />
+            <motion.div transition={{duration: 0.5}} whileInView={{scale: 1.1}} className='flex scale-90 flex-col justify-center h-3/5 w-7/8 bg-[#31244463] cursor-pointer rounded-2xl p-3'>
+                <img className='w-100 h-90 object-cover object-center rounded-xl' src="/artist/Taylor.webp" alt="Taylor Swift" />
                     <h1 className='text-2xl pt-3'>Taylor Swift</h1>
                     <div className='flex items-center justify-between pt-2'>
                         <span className='text-2xl'>#1</span>
@@ -37,7 +37,7 @@ function TopArtist() {
         
         <Link to={`/artist/${encodeURIComponent("Bad Bunny")}`}>
             <motion.div transition={{duration: 0.5}} whileInView={{scale: 1.1}} className='h-1/5 scale-90 w-6/7 bg-[#31244463] cursor-pointer rounded-2xl p-3'>
-                <img className='w-[20vw] h-[40vh] object-cover' src="./artist/bunny.webp" />
+                <img className='w-[20vw] h-[40vh] object-cover rounded-xl' src="/artist/bunny.webp" alt="Bad Bunny" />
                     <h1 className='text-2xl pt-3'>Bad Bunny</h1>
                 <div className='flex items-center justify-between pt-2'>
                     <span className='text-2xl'>#3</span>

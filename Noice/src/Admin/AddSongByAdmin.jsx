@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from "axios";
+import api from '../api';
 import { toast } from 'react-toastify';
 import { IoMusicalNoteSharp, IoCamera } from "react-icons/io5";
 import { TiTick } from "react-icons/ti";
@@ -21,31 +21,38 @@ function AddSongByAdmin() {
   const [dragOverImg, setDragOverImg] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
 
-  const { songs, setSonglist } = useSong();
-  const songlist = songs;
+  const { songs, setSongs, setSonglist } = useSong();
+  const updateSongs = setSonglist || setSongs;
+  const songlist = songs || [];
 
   useEffect(() => {
     (async () => {
-      const res = await axios.get("https://noice-2ed8.onrender.com/api/album/list");
-      setAlbumdata(res.data.album);
-      const artistres = await axios.get("https://noice-2ed8.onrender.com/api/artist/list");
-      setArtistdata(artistres.data.artist);
+      try {
+        const res = await api.get("/api/album/list");
+        if (res.data?.album) setAlbumdata(res.data.album);
+        const artistres = await api.get("/api/artist/list");
+        if (artistres.data?.artist) setArtistdata(artistres.data.artist);
+      } catch (err) {
+        console.error("Error loading album/artist data", err);
+      }
     })();
   }, []);
 
-
-
   //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> adding song
 
-
   const removeSong = async (id) => {
-    await axios.post("https://noice-2ed8.onrender.com/api/song/remove", { id });
-    toast.success("Song deleted!");
-    setSonglist(prev => prev.filter(s => s._id !== id));
+    try {
+      await api.post("/api/song/remove", { id });
+      toast.success("Song deleted!");
+      if (updateSongs) {
+        updateSongs(prev => prev.filter(s => s._id !== id));
+      }
+    } catch (err) {
+      toast.error(err.response?.data?.message || "Failed to remove song");
+    }
   };
 
   const onSubmit = async (e) => {
-
     e.preventDefault();
     setLoading(true);
 
@@ -64,8 +71,11 @@ function AddSongByAdmin() {
     formData.append('img', img);
 
     try {
-      await axios.post("https://noice-2ed8.onrender.com/api/song/add", formData);
+      const res = await api.post("/api/song/add", formData);
       toast.success("Song added successfully!");
+      if (res.data?.song && updateSongs) {
+        updateSongs(prev => [...prev, res.data.song]);
+      }
       setName("");
       setArtist("");
       setAlbum("none");
@@ -74,7 +84,7 @@ function AddSongByAdmin() {
       setImg(false);
       setLoading(false);
     } catch (err) {
-      toast.error("Upload failed. Try again.");
+      toast.error(err.response?.data?.message || "Upload failed. Try again.");
       setLoading(false);
     }
   };
@@ -225,16 +235,18 @@ function AddSongByAdmin() {
                 onChange={async (e) => {
                   const newAlbum = e.target.value;
                   try {
-                    await axios.put("https://noice-2ed8.onrender.com/api/song/update", {
+                    await api.put("/api/song/update", {
                       songId: s._id,
                       newAlbum
                     });
                     toast.success("Album updated");
-                    setSonglist(prev => prev.map(song =>
-                      song._id === s._id ? { ...song, album: newAlbum } : song
-                    ));
+                    if (updateSongs) {
+                      updateSongs(prev => prev.map(song =>
+                        song._id === s._id ? { ...song, album: newAlbum } : song
+                      ));
+                    }
                   } catch (err) {
-                    toast.error("Failed to update album");
+                    toast.error(err.response?.data?.message || "Failed to update album");
                   }
                 }}
                 className="bg-[#1f0038] px-2 py-1 rounded text-white"

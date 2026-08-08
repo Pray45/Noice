@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from 'react';
-import axios from "axios";
+import React, { useState } from 'react';
+import api from '../api';
 import { toast } from 'react-toastify';
 import { IoMusicalNoteSharp, IoCamera } from "react-icons/io5";
 import { TiTick } from "react-icons/ti";
 import Songwave from './loading/Songwave';
 
-function AddSongByAdmin() {
+function AddSong() {
   const [song, setSong] = useState(false);
   const [img, setImg] = useState(false);
   const [name, setName] = useState("");
   const [artist, setArtist] = useState("");
   const [loading, setLoading] = useState(false);
-  const [artistalbum , setartistalbum] = useState("none");
+  const [artistalbum, setartistalbum] = useState("none");
   const [dragOverSong, setDragOverSong] = useState(false);
   const [dragOverImg, setDragOverImg] = useState(false);
 
@@ -33,7 +33,7 @@ function AddSongByAdmin() {
     formData.append('img', img);
 
     try {
-        await axios.post("https://noice-2ed8.onrender.com/api/song/add", formData);
+        await api.post("/api/song/add", formData);
         toast.success("Song added successfully!");
         setName("");
         setArtist("");
@@ -41,7 +41,7 @@ function AddSongByAdmin() {
         setImg(false);
         setLoading(false);
     } catch (err) {
-        toast.error("Upload failed. Try again.");
+        toast.error(err.response?.data?.message || "Upload failed. Try again.");
         setLoading(false);
     }
   };
@@ -126,4 +126,4 @@ function AddSongByAdmin() {
   );
 }
 
-export default AddSongByAdmin;
+export default AddSong;

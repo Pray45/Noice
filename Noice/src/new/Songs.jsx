@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { FaHeart } from 'react-icons/fa';
 import { toast } from 'react-toastify';
-import axios from 'axios';
+import api from '../api';
 import { useSong } from '../contaxt.jsx';
 import { MdOutlinePlaylistAdd } from 'react-icons/md';
 import { IoShareSocialSharp } from 'react-icons/io5';
@@ -28,9 +28,9 @@ function Songs({ filteredSongs }) {
   const [dropdownVisibleId, setDropdownVisibleId] = useState(null);
   const [playlistDropdownId, setPlaylistDropdownId] = useState(null);
 
-  const list = filteredSongs || songs;
+  const list = filteredSongs || songs || [];
 
-  const isLiked = (songId) => likedSongs?.includes(songId);
+  const isLiked = (songId) => likedSongs && likedSongs.includes(songId);
 
   // Add to queue safely, no duplicates
   const addToQueue = (song) => {
@@ -47,16 +47,7 @@ function Songs({ filteredSongs }) {
   const handleAddToPlaylist = async (playlistId, songId) => {
     setAddingTo(songId);
     try {
-      await axios.put(
-        `https://noice-2ed8.onrender.com/api/playlist/add-song/${playlistId}`,
-        { songId },
-        {
-          withCredentials: true,
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-          },
-        }
-      );
+      await api.put(`/api/playlist/add-song/${playlistId}`, { songId });
       toast.success('Added to playlist');
     } catch {
       toast.error('Already in playlist or failed to add');

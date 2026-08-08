@@ -16,8 +16,12 @@ function Nav() {
     const [Msg , setMsg] = useState("")
 
     const logOut = () => {
-        window.localStorage.setItem('loggedIn', "false") 
-        window.location.reload()
+        window.localStorage.removeItem('loggedIn');
+        window.localStorage.removeItem('token');
+        window.localStorage.removeItem('userId');
+        window.localStorage.removeItem('userName');
+        window.localStorage.removeItem('selectplaylist');
+        window.location.href = '/login';
     }
 
     useEffect(()=>{

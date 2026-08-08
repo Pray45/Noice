@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import axios from 'axios'
+import api from '../api'
 import Songwave from "./loading/Songwave.jsx"
 import { useSong } from '../contaxt'
 import { FaHeart } from 'react-icons/fa'
@@ -30,15 +30,9 @@ function Controller() {
   const [showLyrics, setShowLyrics] = useState(false);
   const [lyrics, setLyrics] = useState('');
 
-  const isLiked = (songId) => likedSongs.includes(songId);
+  const isLiked = (songId) => likedSongs && likedSongs.includes(songId);
 
-    useEffect(() => {
-    if (!currentsng && queue.length > 0) {
-      setCurrentsng(queue[0]);
-    }
-  }, [currentsng, queue, setCurrentsng]);
-
-    useEffect(() => {
+  useEffect(() => {
     if (!currentsng && queue.length > 0) {
       setCurrentsng(queue[0]);
     }
@@ -63,6 +57,7 @@ function Controller() {
   }, [currentsng, setIsPlaying]);
 
   const formatTime = (time) => {
+    if (!time || isNaN(time)) return "0:00";
     const minutes = Math.floor(time / 60);
     const seconds = Math.floor(time % 60);
     return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
@@ -73,9 +68,36 @@ function Controller() {
       setHandleTime(0); // reset time on song change
       setDuration(0);
       audioRef.current.load();
-      if (isPlaying) audioRef.current.play().catch(console.error);
+      if (isPlaying) {
+        audioRef.current.play().catch((err) => console.log('Audio playback waiting for user action', err));
+      }
     }
   }, [currentsng]);
+
+  // Next song cycling
+  const nextSong = () => {
+    if (!queue || queue.length === 0) return;
+    if (shuffle) {
+      const randomIndex = Math.floor(Math.random() * queue.length);
+      setCurrentsng(queue[randomIndex]);
+      return;
+    }
+    const currentIndex = queue.findIndex(song => song._id === currentsng?._id);
+    const nextIndex = (currentIndex + 1) % queue.length;
+    setCurrentsng(queue[nextIndex]);
+  };
+
+  // Previous song logic
+  const prevSong = () => {
+    if (!queue || queue.length === 0) return;
+    const currentIndex = queue.findIndex(song => song._id === currentsng?._id);
+    if (currentIndex === -1) {
+      setCurrentsng(queue[0]);
+      return;
+    }
+    const prevIndex = (currentIndex - 1 + queue.length) % queue.length;
+    setCurrentsng(queue[prevIndex]);
+  };
 
   useEffect(() => {
     const audio = audioRef.current;
@@ -86,9 +108,9 @@ function Controller() {
     const handleEnded = () => {
       if (repeat) {
         audio.currentTime = 0;
-        audio.play();
+        audio.play().catch(console.error);
       } else {
-        skipAndRemoveCurrent();
+        nextSong();
       }
     };
 
@@ -101,8 +123,7 @@ function Controller() {
       audio.removeEventListener('loadedmetadata', updateDuration);
       audio.removeEventListener('ended', handleEnded);
     };
-    // eslint-disable-next-line
-  }, [currentsng, repeat, setQueue, setCurrentsng, setIsPlaying, queue, shuffle]);
+  }, [currentsng, repeat, queue, shuffle]);
 
   useEffect(() => {
     if (audioRef.current) {
@@ -114,57 +135,6 @@ function Controller() {
     const value = parseFloat(e.target.value);
     setHandleTime(value);
     if (audioRef.current) audioRef.current.currentTime = value;
-  };
-
-  // Helper to skip to next song and remove the current song from the queue
-  const skipAndRemoveCurrent = () => {
-    setQueue((prevQueue) => {
-      if (!currentsng) return prevQueue;
-      const filteredQueue = prevQueue.filter(song => song._id !== currentsng._id);
-
-      if (filteredQueue.length > 0) {
-        let nextIndex = 0;
-        if (shuffle) {
-          nextIndex = Math.floor(Math.random() * filteredQueue.length);
-        }
-        setCurrentsng(filteredQueue[nextIndex]);
-      } else {
-        setCurrentsng(null);
-        setIsPlaying(false);
-      }
-      return filteredQueue;
-    });
-  };
-
-  // Only skip and remove if there are at least 2 songs in the queue
-  const nextSong = () => {
-    setQueue((prevQueue) => {
-      if (!currentsng) return prevQueue;
-      if (prevQueue.length <= 1) {
-        setCurrentsng(null);
-        setIsPlaying(false);
-        return [];
-      }
-      const filteredQueue = prevQueue.filter(song => song._id !== currentsng._id);
-      let nextIndex = 0;
-      if (shuffle) {
-        nextIndex = Math.floor(Math.random() * filteredQueue.length);
-      }
-      setCurrentsng(filteredQueue[nextIndex]);
-      return filteredQueue;
-    });
-  };
-
-  // Previous song logic: just go to previous, but do not remove current from queue
-  const prevSong = () => {
-    setQueue((prevQueue) => {
-      if (!currentsng) return prevQueue;
-      const currentIndex = prevQueue.findIndex(song => song._id === currentsng._id);
-      if (currentIndex === -1) return prevQueue;
-      const prevIndex = (currentIndex - 1 + prevQueue.length) % prevQueue.length;
-      setCurrentsng(prevQueue[prevIndex]);
-      return prevQueue;
-    });
   };
 
   // Remove song from queue and handle if removed song is currently playing
@@ -184,16 +154,15 @@ function Controller() {
   };
 
   useEffect(() => {
-    
     const fetchLyrics = async () => {
       if (!currentsng?.name || !currentsng?.artist) return;
 
       try {
-        const response = await axios.post('https://noice-2ed8.onrender.com/api/getlyrics', {
+        const response = await api.post('/api/getlyrics', {
           songName: currentsng.name,
           artist: currentsng.artist
         });
-        setLyrics(response.data.lyrics);
+        setLyrics(response.data?.lyrics || 'Lyrics not available.');
       } catch (error) {
         console.error('Error fetching lyrics:', error);
         setLyrics('Lyrics not available.');
@@ -281,7 +250,7 @@ function Controller() {
             animate={{ x: 0 }}
             exit={{ x: 300, transition: { duration: 0.3 } }}
             transition={{ duration: 0.3 }}
-            className='fixed bottom-0 right-0 top-0 w-80 overflow-y-auto p-4 -z-60 bg-[rgba(37,21,64,0.74)] shadow-[0_4px_30px_rgba(0,0,0,0.1)] backdrop-blur-[9px] border border-[rgba(39,0,50,0.46)]'
+            className='fixed bottom-16 right-0 top-0 w-80 overflow-y-auto p-4 z-40 bg-[rgba(37,21,64,0.9)] shadow-[0_4px_30px_rgba(0,0,0,0.5)] backdrop-blur-[12px] border-l border-[rgba(139,92,246,0.3)]'
           >
             {/* Currently Playing */}
             {currentsng && (
@@ -294,7 +263,7 @@ function Controller() {
               </div>
             )}
 
-            <h2 className='text-white text-xl font-semibold mb-4'>Queue</h2>
+            <h2 className='text-white text-xl font-semibold mb-4'>Queue ({queue.length})</h2>
 
             <Reorder.Group
               axis="y"
@@ -314,7 +283,7 @@ function Controller() {
                   onClick={() => setCurrentsng(song)}
                 >
                   <img src={song.img} alt={song.name} className='w-12 h-12 rounded object-cover' />
-                  <div className='text-white truncate'>
+                  <div className='text-white truncate pr-6'>
                     <p className='font-medium truncate'>{song.name}</p>
                     <p className='text-sm text-gray-400 truncate'>{song.artist}</p>
                   </div>
@@ -323,7 +292,7 @@ function Controller() {
                       e.stopPropagation()
                       removeFromQueue(song)
                     }}
-                    className='text-2xl text-white absolute right-3 cursor-pointer'
+                    className='text-2xl text-white absolute right-3 cursor-pointer hover:text-red-400'
                     title="Remove from queue"
                   />
                 </Reorder.Item>
@@ -342,19 +311,19 @@ function Controller() {
             animate={{ y: 0 }}
             exit={{ y  : 1000, transition: { duration: 0.5 } }}
             transition={{ duration: 0.5 }}
-            className='fixed bottom-0 top-5 right-10 rounded-lg h-[90vh] verflow-y-auto w-[95vw] p-4 z-10 bg-[rgba(37,21,64,0.74)] shadow-[0_4px_30px_rgba(0,0,0,0.1)] backdrop-blur-[9px] border border-[rgba(39,0,50,0.46)]'
+            className='fixed bottom-16 top-5 right-5 left-5 rounded-lg overflow-y-auto p-6 z-40 bg-[rgba(37,21,64,0.92)] shadow-[0_4px_30px_rgba(0,0,0,0.5)] backdrop-blur-[12px] border border-[rgba(139,92,246,0.3)]'
           >
 
             {currentsng ? 
 
-              <div className='flex gap-20 pt-5 pl-10'>
-                <div>
-                  <img src={currentsng.img} className='rounded-lg w-100 h-100' alt="" />
-                  <h1 className='text-3xl w-100 truncate text-white pl-1 pt-3'>{currentsng.name}</h1>
-                  <h1 className='text-2xl w-100 truncate text-white pl-1 pt-3'>{currentsng.artist}</h1>
+              <div className='flex flex-col md:flex-row gap-10 pt-5 pl-4'>
+                <div className='flex-shrink-0'>
+                  <img src={currentsng.img} className='rounded-lg w-72 h-72 object-cover' alt={currentsng.name} />
+                  <h1 className='text-3xl font-bold text-white pt-3 truncate max-w-xs'>{currentsng.name}</h1>
+                  <h1 className='text-xl text-gray-300 pt-1 truncate max-w-xs'>{currentsng.artist}</h1>
                 </div>
-                <div className='h-160 overflow-auto'>
-                  <p className='whitespace-pre-line text-white text-4xl font-semibold'>
+                <div className='h-[65vh] overflow-y-auto flex-1 pr-4'>
+                  <p className='whitespace-pre-line text-white text-2xl font-medium leading-relaxed'>
                     {lyrics}
                   </p>
                 </div>
@@ -362,9 +331,9 @@ function Controller() {
 
               :
 
-              <div className='flex flex-col items-center'>
-                <h1 className='text-white font-semibold text-4xl'>
-                Please select a song first  
+              <div className='flex flex-col items-center justify-center h-full'>
+                <h1 className='text-white font-semibold text-3xl mb-4'>
+                  Please select a song first  
                 </h1>
                 <Songwave />
               </div>

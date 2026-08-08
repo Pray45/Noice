@@ -1,27 +1,29 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Link } from 'react-router-dom';
-import axios from 'axios';
+import { useNavigate, Link } from 'react-router-dom';
+import api from '../../api';
 import { toast } from 'react-toastify';
 
 const Register = () => {
   const [input, setInput] = useState({ username: '', email: '', password: '' });
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('https://noice-2ed8.onrender.com/api/user/create', input, {withCredentials: true})
+      setLoading(true);
+      const res = await api.post('/api/user/create', input);
 
-    if (res.data.success) {
-        toast.success('Registered successfully!');
+      if (res.data.success) {
+        toast.success('Registered successfully! Please login.');
         navigate('/login');
-    }else {
+      } else {
         toast.error(res.data.message || 'Registration failed');
-    }
+      }
     } catch (error) {
-        console.log(error.response);
-        toast.error(error.response?.data?.message || 'Server error');
+      toast.error(error.response?.data?.message || 'Server error during registration');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -53,12 +55,12 @@ const Register = () => {
           value={input.password}
           required
         />
-        <button type="submit" className="w-full bg-purple-700 p-2 rounded hover:bg-purple-600">
-          Register
+        <button type="submit" disabled={loading} className="w-full bg-purple-700 p-2 rounded hover:bg-purple-600 cursor-pointer disabled:opacity-50">
+          {loading ? 'Registering...' : 'Register'}
         </button>
         <p className="mt-4 text-sm text-center">
           Already have an account?{' '}
-          <Link to="/login" className="text-purple-400 underline">
+          <Link to="/login" className="text-purple-400 underline ml-1">
             Login
           </Link>
         </p>

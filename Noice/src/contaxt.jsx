@@ -1,6 +1,6 @@
 // context.jsx
 import React, { createContext, useState, useEffect, useContext } from "react";
-import axios from "axios";
+import api from "./api";
 
 const SongContext = createContext();
 
@@ -8,7 +8,7 @@ export const DataProvider = ({ children }) => {
   const [songs, setSongs] = useState([]);
   const [album, setAlbum] = useState([]);
   const [playlist, setPlaylist] = useState([]);
-  const [selectplaylist, setSelectplaylist] = useState();
+  const [selectplaylist, setSelectplaylist] = useState(null);
   const [artist, setArtist] = useState([]);
   const [likedSongs, setLikedSongs] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -25,40 +25,75 @@ export const DataProvider = ({ children }) => {
   const token = localStorage.getItem("token");
 
   useEffect(() => {
-    (async () => {
+    let isMounted = true;
+
+    const fetchData = async () => {
       try {
-        const songRes = await axios.get("https://noice-2ed8.onrender.com/api/song/list", { withCredentials: true });
-        setSongs(songRes.data.songlist);
+        // Fetch public catalog data concurrently
+        const [songRes, albumRes, artistRes] = await Promise.allSettled([
+          api.get("/api/song/list"),
+          api.get("/api/album/list"),
+          api.get("/api/artist/list")
+        ]);
 
-        const albumRes = await axios.get("https://noice-2ed8.onrender.com/api/album/list", { withCredentials: true });
-        setAlbum(albumRes.data.album);
-
-        const artistRes = await axios.get("https://noice-2ed8.onrender.com/api/artist/list", { withCredentials: true });
-        setArtist(artistRes.data.artist);
-
-        const playlistRes = await axios.get("https://noice-2ed8.onrender.com/api/playlist/list", {
-          headers: { Authorization: `Bearer ${token}` },
-          withCredentials: true
-        });
-        setPlaylist(playlistRes.data.playlists);
-
-        if (userId) {
-          const response = await axios.get(`https://noice-2ed8.onrender.com/api/user/liked-songs/${userId}`, { withCredentials: true });
-          setLikedSongs(response.data.likedSongs);
+        if (isMounted) {
+          if (songRes.status === "fulfilled" && songRes.value.data?.songlist) {
+            setSongs(songRes.value.data.songlist);
+          }
+          if (albumRes.status === "fulfilled" && albumRes.value.data?.album) {
+            setAlbum(albumRes.value.data.album);
+          }
+          if (artistRes.status === "fulfilled" && artistRes.value.data?.artist) {
+            setArtist(artistRes.value.data.artist);
+          }
         }
 
-        setLoading(false);
+        // Fetch user-specific data if logged in
+        if (token) {
+          try {
+            const playlistRes = await api.get("/api/playlist/list");
+            if (isMounted && playlistRes.data?.playlists) {
+              setPlaylist(playlistRes.data.playlists);
+            }
+          } catch (error) {
+            console.error("Error fetching playlists", error);
+          }
+        }
+
+        if (userId) {
+          try {
+            const likedRes = await api.get(`/api/user/liked-songs/${userId}`);
+            if (isMounted && likedRes.data?.likedSongs) {
+              setLikedSongs(likedRes.data.likedSongs);
+            }
+          } catch (error) {
+            console.error("Error fetching liked songs", error);
+          }
+        }
       } catch (error) {
-        console.error("Error fetching data", error);
+        console.error("Error in initial data fetch", error);
+      } finally {
+        if (isMounted) {
+          setLoading(false);
+        }
       }
-    })();
-  }, []);
+    };
+
+    fetchData();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [token, userId]);
 
   const likeSong = async (songId) => {
-    if (!userId) return;
+    const currentUserId = localStorage.getItem("userId");
+    if (!currentUserId) return;
     try {
-      const response = await axios.post("https://noice-2ed8.onrender.com/api/user/like", { userId, songId }, { withCredentials: true });
-      setLikedSongs(response.data.likedSongs);
+      const response = await api.post("/api/user/like", { userId: currentUserId, songId });
+      if (response.data?.likedSongs) {
+        setLikedSongs(response.data.likedSongs);
+      }
     } catch (error) {
       console.error("Error liking song", error);
     }
@@ -69,9 +104,15 @@ export const DataProvider = ({ children }) => {
       value={{
         handleTime, setHandleTime,
         duration, setDuration,
-        songs, album, artist,
-        playlist, selectplaylist, setSelectplaylist,
-        likedSongs, likeSong, loading, setLoading,
+        songs, setSongs,
+        setSonglist: setSongs,
+        album, setAlbum,
+        artist, setArtist,
+        playlist, setPlaylist,
+        selectplaylist, setSelectplaylist,
+        likedSongs, setLikedSongs,
+        likeSong,
+        loading, setLoading,
         queue, setQueue,
         currentsng, setCurrentsng,
         repeat, setRepeat,

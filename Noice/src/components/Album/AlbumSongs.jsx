@@ -14,7 +14,7 @@ const AlbumSongs = () => {
   return (
     <div className="text-white w-9/11 bg-gradient-to-r from-[#070011] to-[#1a012c] min-h-screen absolute right-0">
 
-      {currentAlbum && ( <Header current={currentAlbum} filteredSongs={filteredSongs} />)}
+      {currentAlbum && ( <Header current={currentAlbum} filteredSongs={filteredSongs} type="Album" />)}
       
       <div className="px-10 py-6">
         

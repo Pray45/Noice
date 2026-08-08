@@ -1,90 +1,96 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import axios from 'axios';
+import api from '../../api';
 import { useSong } from '../../contaxt.jsx';
 import Songwave from '../../components/loading/Songwave.jsx';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Songs from '../../new/Songs.jsx';
 import { IoPlayCircle } from "react-icons/io5";
-
+import { toast } from 'react-toastify';
 
 const PlaylistSongs = () => {
-  const { likedSongs, likeSong, setQueue} = useSong();
-  const id = localStorage.getItem("selectplaylist")
-  const [playlist, setPlaylist] = useState(null);
-  const token = localStorage.getItem('token');
+  const { likedSongs, setQueue, playlist: allPlaylists, setPlaylist: setAllPlaylists } = useSong();
+  const { something } = useParams();
+  const storedId = localStorage.getItem("selectplaylist");
+  
+  // Find playlist by ID or match by name from allPlaylists
+  const matchedPlaylist = allPlaylists?.find(p => p._id === storedId || p.name === something);
+  const id = matchedPlaylist?._id || storedId;
 
-  const isLiked = (songId) => likedSongs && likedSongs.includes(songId);
+  const [playlist, setPlaylist] = useState(matchedPlaylist || null);
+  const [loading, setLoading] = useState(!matchedPlaylist);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchPlaylist = async () => {
+      if (!id) {
+        setLoading(false);
+        return;
+      }
       try {
-        const res = await axios.get(
-          `https://noice-2ed8.onrender.com/api/playlist/list/${id}`,
-          {
-            headers: { Authorization: `Bearer ${token}` },
-            withCredentials: true,
-          }
-        );
-        setPlaylist(res.data.playlist);
+        const res = await api.get(`/api/playlist/list/${id}`);
+        if (res.data?.playlist) {
+          setPlaylist(res.data.playlist);
+        }
       } catch (err) {
         console.error('Failed to load playlist:', err.response?.data || err.message);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchPlaylist();
-  }, [id , token]);
+  }, [id]);
 
   const removeSong = async (songId) => {
-  try {
-    await axios.delete(
-      `https://noice-2ed8.onrender.com/api/playlist/remove/${id}/${songId}`,
-      {
-        headers: { Authorization: `Bearer ${token}` },
-        withCredentials: true,
+    if (!id) return;
+    try {
+      await api.delete(`/api/playlist/remove/${id}/${songId}`);
+
+      // Remove the song from the playlist in local state
+      setPlaylist((prev) => ({
+        ...prev,
+        songs: prev.songs.filter((song) => song._id !== songId),
+      }));
+      toast.success('Song removed from playlist');
+    } catch (err) {
+      console.error("Failed to remove song:", err.response?.data || err.message);
+      toast.error('Failed to remove song');
+    }
+  };
+
+  const deletePlaylist = async () => {
+    if (!id) return;
+    const confirmDelete = window.confirm('Are you sure you want to delete this playlist?');
+    if (!confirmDelete) return;
+
+    try {
+      await api.delete(`/api/playlist/remove/${id}`);
+      if (setAllPlaylists) {
+        setAllPlaylists(prev => prev.filter(p => p._id !== id));
       }
+      toast.success('Playlist deleted');
+      navigate('/playlist');
+    } catch (err) {
+      console.error('Failed to delete playlist:', err.response?.data || err.message);
+      toast.error('Failed to delete playlist.');
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="text-white flex justify-center items-center w-9/11 bg-gradient-to-r from-[#070011] to-[#1a012c] min-h-screen absolute right-0">
+        <Songwave/>
+      </div>    
     );
-
-    // Remove the song from the playlist in local state
-    setPlaylist((prev) => ({
-      ...prev,
-      songs: prev.songs.filter((song) => song._id !== songId),
-    }));
-  } catch (err) {
-    console.error("Failed to remove song:", err.response?.data || err.message);
   }
-};
-
-
-const navigate = useNavigate();
-
-const deletePlaylist = async () => {
-  const confirmDelete = window.confirm('Are you sure you want to delete this playlist?');
-  if (!confirmDelete) return;
-
-  try {
-    await axios.delete(
-      `https://noice-2ed8.onrender.com/api/playlist/remove/${id}`,
-      {
-        headers: { Authorization: `Bearer ${token}` },
-        withCredentials: true,
-      }
-    );
-    navigate('/playlist');
-    window.location.reload();
-  } catch (err) {
-    console.error('Failed to delete playlist:', err.response?.data || err.message);
-    alert('Failed to delete playlist.');
-  }
-};
-
 
   if (!playlist) {
     return (
-        <div className="text-white flex justify-center w-9/11 bg-gradient-to-r from-[#070011] to-[#1a012c] min-h-screen absolute right-0">
-            <Songwave/>
-        </div>    
-    )
+      <div className="text-white flex flex-col items-center justify-center w-9/11 bg-gradient-to-r from-[#070011] to-[#1a012c] min-h-screen absolute right-0">
+        <p className="text-xl text-gray-400">Playlist not found</p>
+      </div>
+    );
   }
 
   return (
@@ -128,7 +134,7 @@ const deletePlaylist = async () => {
 
       <div className="px-10 py-6">
         {playlist.songs.length === 0 ? (
-          <p className="text-zinc-400">No songs found in this album.</p>
+          <p className="text-zinc-400">No songs found in this playlist.</p>
         ) : (
           <div className="flex flex-col gap-4">
             <Songs filteredSongs={playlist.songs} />
